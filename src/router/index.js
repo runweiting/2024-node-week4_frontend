@@ -100,7 +100,7 @@ const baseRoutes = [
 const router = createRouter({
   // 網址路徑模式：使用 URL Hash(#錨點)
   // 可藉由 #/切換至不同 # 位置，避免引發網頁重新讀取
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: baseRoutes,
   // scrollBehavior 定義路由的滾動行為
   // 接收三個參數：to 表示目標路由，from 表示當前路由，savedPosition 表示從緩存中獲取的滾動位置
