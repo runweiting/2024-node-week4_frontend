@@ -4,7 +4,8 @@ import eslintPlugin from "vite-plugin-eslint";
 import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
-  base: "/week4/",
+  // 要和 GitHub Repo 名稱一致
+  base: "/2024-node-week4_frontend/",
   plugins: [
     vue(),
     eslintPlugin({
