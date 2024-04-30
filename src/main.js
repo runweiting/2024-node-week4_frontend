@@ -1,7 +1,7 @@
 import "./assets/all.scss";
 
 // 匯入 bootstrap
-import "bootstrap";
+import "bootstrap/dist/js/bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 // 匯入 createApp、createPinia
