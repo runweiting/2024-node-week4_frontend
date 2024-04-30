@@ -1,0 +1,13 @@
+// typeface
+@import url("https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Baloo+Da+2:wght@400..800&family=Noto+Sans+TC:wght@100..900&family=Paytone+One&display=swap");
+
+// bootstrap
+@import "bootstrap/scss/functions";
+@import "./scss/helpers/variables";
+@import "bootstrap/scss/bootstrap.scss";
+
+// base
+@import "./scss/base/base";
+
+// helpers
+@import "./scss/helpers/font";
