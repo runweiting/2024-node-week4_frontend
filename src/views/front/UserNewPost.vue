@@ -93,12 +93,13 @@ export default {
     ...mapState(userPostsStore, ['newPost']),
   },
   methods: {
-    ...mapActions(userPostsStore, ['createPosts']),
+    ...mapActions(userPostsStore, ['createPosts', 'getPosts']),
     handleCreatePost(content, image) {
       if (image.startsWith("http")) {
         this.createPosts(content, image);
         this.tempContent = '';
         this.tempImage = '';
+        this.getPosts();
         this.$router.push({ name: "home" })
       } else {
         showErrorToast("網址須為 http 開頭")
