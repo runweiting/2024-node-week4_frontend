@@ -34,10 +34,12 @@ const userPostsStore = defineStore("userPostsStore", {
       const loader = $loading.show();
       try {
         await axios.post(VITE_APP_URL, {
-          user: "662a6bacbf706db5129b49f9",
-          content: tempContent,
-          image: tempImage,
-          likes: "",
+          data: {
+            user: "662a6bacbf706db5129b49f9",
+            content: tempContent,
+            image: tempImage,
+            likes: "",
+          },
         });
         this.getPosts("asc");
         showSuccessToast("新增成功");
