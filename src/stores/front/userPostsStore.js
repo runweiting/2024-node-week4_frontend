@@ -30,10 +30,10 @@ const userPostsStore = defineStore("userPostsStore", {
         loader.hide();
       }
     },
-    createPosts(tempContent, tempImage) {
+    async createPosts(tempContent, tempImage) {
       const loader = $loading.show();
       try {
-        axios.post(VITE_APP_URL, {
+        await axios.post(VITE_APP_URL, {
           user: "662a6bacbf706db5129b49f9",
           content: tempContent,
           image: tempImage,
