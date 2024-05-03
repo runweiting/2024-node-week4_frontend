@@ -25,7 +25,7 @@ const userPostsStore = defineStore("userPostsStore", {
         const { post } = res.data;
         this.postsList = post;
       } catch (err) {
-        showErrorToast(err.response);
+        showErrorToast(err.message);
       } finally {
         loader.hide();
       }
@@ -44,7 +44,7 @@ const userPostsStore = defineStore("userPostsStore", {
         this.getPosts("asc");
         showSuccessToast("新增成功");
       } catch (err) {
-        showErrorToast(err.response);
+        showErrorToast(err.message);
       } finally {
         loader.hide();
       }
