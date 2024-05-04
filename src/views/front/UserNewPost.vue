@@ -80,7 +80,7 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import userPostsStore from '@/stores/front/userPostsStore';
-import showErrorToast from '@/utils/showErrorToast';
+import showErrorToast from '@/utils/showErrorToast'
 
 export default {
   data() {
@@ -95,14 +95,14 @@ export default {
   methods: {
     ...mapActions(userPostsStore, ['createPosts', 'getPosts']),
     handleCreatePost(content, image) {
-      if (image.startsWith("http")) {
+      if (!content) {
+        showErrorToast("貼文內容為必填")
+      } else {
         this.createPosts(content, image);
         this.tempContent = '';
         this.tempImage = '';
         this.getPosts();
         this.$router.push({ name: "home" })
-      } else {
-        showErrorToast("網址須為 http 開頭")
       }
     }
   }

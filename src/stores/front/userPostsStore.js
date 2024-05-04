@@ -5,7 +5,10 @@ import showErrorToast from "@/utils/showErrorToast";
 import showSuccessToast from "@/utils/showSuccessToast";
 
 const $loading = useLoading({});
-const { VITE_APP_URL } = import.meta.env;
+// 正式環境
+// const { VITE_APP_URL } = import.meta.env;
+// 測試環境
+const { VITE_LOCALHOST } = import.meta.env;
 const userPostsStore = defineStore("userPostsStore", {
   state: () => ({
     postsList: [],
@@ -13,7 +16,7 @@ const userPostsStore = defineStore("userPostsStore", {
   actions: {
     async getPosts(timeSort = null, keyword = null) {
       const loader = $loading.show();
-      let url = `${VITE_APP_URL}`;
+      let url = `${VITE_LOCALHOST}`;
       if (timeSort !== null) {
         url += `?timeSort=${timeSort}`;
         if (keyword) {
@@ -25,7 +28,7 @@ const userPostsStore = defineStore("userPostsStore", {
         const { post } = res.data;
         this.postsList = post;
       } catch (err) {
-        showErrorToast(err.message);
+        showErrorToast(err.response.data.message);
       } finally {
         loader.hide();
       }
@@ -33,18 +36,16 @@ const userPostsStore = defineStore("userPostsStore", {
     async createPosts(tempContent, tempImage) {
       const loader = $loading.show();
       try {
-        await axios.post(VITE_APP_URL, {
-          data: {
-            user: "662a6bacbf706db5129b49f9",
-            content: tempContent,
-            image: tempImage,
-            likes: "",
-          },
+        await axios.post(VITE_LOCALHOST, {
+          user: "66359231351248cc4b676511",
+          content: tempContent,
+          image: tempImage,
+          likes: "",
         });
-        this.getPosts("asc");
         showSuccessToast("新增成功");
+        this.getPosts();
       } catch (err) {
-        showErrorToast(err.message);
+        showErrorToast(err.response.data.message);
       } finally {
         loader.hide();
       }
