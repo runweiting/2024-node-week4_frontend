@@ -97,6 +97,8 @@ export default {
     handleCreatePost(content, image) {
       if (!content) {
         showErrorToast("貼文內容為必填")
+      } else if (!image.startsWith('http')) {
+        showErrorToast("圖片網址錯誤")
       } else {
         this.createPosts(content, image);
         this.tempContent = '';
