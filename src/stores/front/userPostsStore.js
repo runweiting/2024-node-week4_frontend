@@ -34,7 +34,7 @@ const userPostsStore = defineStore("userPostsStore", {
       const loader = $loading.show();
       try {
         await axios.post(VITE_APP_URL, {
-          user: "66359231351248cc4b676511",
+          user: "662a6bacbf706db5129b49fa",
           content: tempContent,
           image: tempImage,
           likes: "",
