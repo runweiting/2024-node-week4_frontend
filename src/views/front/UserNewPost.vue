@@ -1,4 +1,5 @@
 <template>
+  <UserNavbar />
   <div class="container py-12" style="height: 100dvh;">
     <div class="row">
       <div class="col-8">
@@ -19,7 +20,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col btn-new-post">
+          <div class="col shadow-new-post">
             <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold py-5 mb-6 w-100 text-center">
             張貼動態
             </div>
@@ -81,8 +82,12 @@
 import { mapState, mapActions } from 'pinia';
 import userPostsStore from '@/stores/front/userPostsStore';
 import showErrorToast from '@/utils/showErrorToast'
+import UserNavbar from '../../../components/front/UserNavbar.vue';
 
 export default {
+  components: {
+    UserNavbar
+  },
   data() {
     return {
       tempContent: '',
@@ -112,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss">
-.btn-new-post {
+.shadow-new-post {
   position: relative;
   z-index: 10;
 

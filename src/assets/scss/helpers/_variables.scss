@@ -451,6 +451,7 @@ $spacers: (
   18: $spacer * 4.5,
   19: $spacer * 4.75,
   20: $spacer * 5,
+  24: $spacer * 6,
   25: $spacer * 6.25,
   30: $spacer * 7.5,
   35: $spacer * 8.75,
@@ -715,11 +716,17 @@ $headings-color: inherit !default;
 // scss-docs-start display-headings
 $display-font-sizes: (
   1: 5rem,
+  // 80px
   2: 4.5rem,
+  // 72px
   3: 4rem,
+  // 64px
   4: 3.5rem,
+  // 56px
   5: 3rem,
+  // 48px
   6: 2.5rem,
+  // 40px
 ) !default;
 
 $display-font-family: null !default;

@@ -1,6 +1,52 @@
 <template>
-  <p>這是登入頁面</p>
+  <div class="shadow-sign-in">
+    <div class="container mt-24 px-12 py-17 border border-black border-2 bg-light">
+      <div class="row">
+        <div class="col">
+          <img src="../../../public/signin.svg" alt="sign-in-image" class="object-fit-cover img-fluid" style="height: 340px;">
+        </div>
+        <div class="col text-center">
+          <h1 class="text-primary display-3">MetaWall</h1>
+          <h4 class="helvetica-neue fw-bold mb-9">到元宇宙展開全新社交圈</h4>
+          <input type="text" class="form-control rounded-0 border border-black border-2 mb-4" placeholder="Email" aria-label="email" aria-describedby="email">
+          <input type="text" class="form-control rounded-0 border border-black border-2 mb-8" placeholder="Password" aria-label="password" aria-describedby="password">
+          <button type="button" class="btn btn-primary border border-2 border-black text-white azeret-mono fw-bold w-100 mb-4" style=" border-bottom: 4px solid black !important;">
+            登入
+          </button>
+          <button type="button" class="btn azeret-mono fw-bold w-100">
+            註冊
+          </button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
 </template>
 
 <script>
 </script>
+
+<style lang="scss">
+.shadow-sign-in {
+  position: relative;
+  z-index: 10;
+
+  &::after {
+    position: absolute;
+    top: 10px;
+    right: 90px;
+    z-index: -1;
+    display: block;
+    width: 870px;
+    height: 506px;
+    background-color: #00000040;
+    content: ''
+  }
+}
+
+.form-control::placeholder {
+  color: #9B9893;
+  font-family: "Azeret Mono";
+}
+
+</style>

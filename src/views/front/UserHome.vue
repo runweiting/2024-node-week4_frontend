@@ -91,7 +91,9 @@ import userPostsStore from '@/stores/front/userPostsStore';
 import UserNavbar from '../../../components/front/UserNavbar.vue';
 
 export default {
-  components: UserNavbar,
+  components: {
+    UserNavbar
+  },
   data() {
     return {
       timeSort: '',
