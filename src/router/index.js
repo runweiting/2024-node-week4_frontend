@@ -4,17 +4,30 @@ import { createRouter, createWebHashHistory } from "vue-router";
 const baseRoutes = [
   {
     path: "/",
-    redirect: "home",
-    component: () => import("@/views/front/UserNavbar.vue"),
+    redirect: "sign-in",
     meta: { navbarType: "frontend" },
     children: [
       {
-        path: "home",
-        name: "home",
-        component: () => import("@/views/front/UserHome.vue"),
+        path: "sign-in",
+        name: "sign-in",
+        component: () => import("@/views/front/UserSignIn.vue"),
         meta: {
-          title: "全體動態牆",
+          title: "登入",
         },
+      },
+      {
+        path: "sign-up",
+        name: "sign-up",
+        // component: () => import("@/views/front/UserHome.vue"),
+        meta: {
+          title: "註冊",
+        },
+      },
+      {
+        path: "metawall",
+        name: "metawall",
+        component: () => import("@/views/front/UserHome.vue"),
+        meta: { title: "全體動態牆" },
       },
       {
         path: "member",
@@ -31,17 +44,10 @@ const baseRoutes = [
             },
           },
           {
-            path: "settings",
-            name: "settings",
+            path: "profile",
+            name: "profile",
             meta: {
               title: "修改個人資料",
-            },
-          },
-          {
-            path: "logout",
-            name: "logout",
-            meta: {
-              title: "登出",
             },
           },
         ],
@@ -60,14 +66,6 @@ const baseRoutes = [
             component: () => import("@/views/front/UserNewPost.vue"),
             meta: {
               title: "張貼動態",
-            },
-          },
-          {
-            path: "profile",
-            name: "profile",
-            // component: () => import("@/components/front/"),
-            meta: {
-              title: "個人資料",
             },
           },
           {

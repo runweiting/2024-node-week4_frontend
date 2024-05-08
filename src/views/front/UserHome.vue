@@ -1,4 +1,5 @@
 <template>
+  <UserNavbar />
   <div class="container py-12">
     <div class="row">
       <div class="col-8">
@@ -86,9 +87,11 @@
 
 <script>
 import { mapState, mapActions } from 'pinia';
-import userPostsStore from '@/stores/front/userPostsStore'
+import userPostsStore from '@/stores/front/userPostsStore';
+import UserNavbar from '../../../components/front/UserNavbar.vue';
 
 export default {
+  components: UserNavbar,
   data() {
     return {
       timeSort: '',
