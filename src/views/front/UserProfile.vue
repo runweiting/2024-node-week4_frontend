@@ -3,45 +3,50 @@
   <div class="container py-12" style="height: 100dvh;">
     <div class="row">
       <div class="col-8">
-        <div class="row mb-4">
-          <div class="col-4">
-            <select class="form-select rounded-0 border-2 border-black py-3 ps-4 pe-10" aria-label="posts select">
-              <option selected>最新貼文</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
-          <div class="col-8">
-            <div class="input-group">
-              <input type="text" class="form-control rounded-0 border-2 border-black py-3 px-4" placeholder="搜尋貼文" aria-label="搜尋貼文" aria-describedby="搜尋貼文">
-              <button class="btn btn-primary rounded-0 px-4" type="button" id="button-addon2"><i class="bi bi-search text-white fs-4"></i></button>
+        <div class="row">
+          <div class="col shadow-new-post">
+            <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold py-5 mb-6 w-100 text-center">
+            修改個人資料
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col shadow-new-post">
-            <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold py-5 mb-6 w-100 text-center">
-            張貼動態
-            </div>
+          <div class="col ps-5">
+            <button type="button" class="btn btn-white hvr-btn-profile mb-n1 noto-sans-tc" style="border: 2px solid black; border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">匿稱修改</button>
+            <button type="button" class="btn btn-white hvr-btn-profile mb-n1 ms-n1 noto-sans-tc" style="border: 2px solid black; border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">重設密碼</button>
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <div class="bg-white rounded border border-2 border-black p-8" style="border-bottom: 4px solid black !important">
-              <div class="d-flex flex-column gap-1 mb-4">
-                <span>貼文內容</span>
-                <textarea v-model="tempContent" class="form-control rounded-0 border border-black border-2" placeholder="請輸入內容" aria-label="post-content"></textarea>
+            <div class="bg-white rounded border border-2 border-black px-24 py-8" style="border-bottom: 4px solid black !important">
+              <div class="rounded-circle overflow-hidden mx-auto mb-4" style="width: 107px; height: 107px;">
+                <img src="../../../public/user_default.png" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid">
+              </div>
+              <div class="text-center mb-3">
+                <button type="button" class="btn btn-dark rounded-0">上傳大頭照</button>
               </div>
               <div class="d-flex flex-column gap-1 mb-4">
-                <span>圖片網址</span>
-                <input v-model="tempImage" type="text" class="form-control rounded-0 border border-black border-2" placeholder="請輸入網址" aria-label="imageUrl" aria-describedby="imageUrl">
+                <span>匿稱</span>
+                <input v-model="tempNickname" class="form-control rounded-0 border border-black border-2" placeholder="請輸入匿稱" aria-label="nickname">
               </div>
-              <!-- <button type="button" class="btn bg-black text-white mb-4" style="width: 128px;">上傳圖片</button> -->
-              <div class="mb-4">
-                <img :src="tempImage" alt="tempImage" class="object-fit-cover img-fluid">
+              <div class="mb-8">
+                <span class="d-block mb-2">性別</span>
+                <div class="d-flex gap-6">
+                  <div class="form-check">
+                    <input id="male" name="性別" value="male" v-model="tempSex" class="form-check-input" type="radio" checked>
+                    <label for="male" class="form-check-label">
+                      男性
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input id="female" name="性別" value="female" v-model="tempSex" class="form-check-input" type="radio">
+                    <label for="female" class="form-check-label">
+                      女性
+                    </label>
+                  </div>
+                </div>
               </div>
-              <button @click="handleCreatePost(tempContent, tempImage)" type="button" class="btn btn-light-gray py-4 border border-2 border-black w-50">送出貼文</button>
+              <button @click="handleUpdateProfile(tempNickname, tempSex)" type="button" class="btn btn-warning py-4 border border-2 border-black w-100" style="border-bottom: 4px solid black !important;">送出更新</button>
             </div>
           </div>
         </div>
@@ -81,7 +86,7 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import userPostsStore from '@/stores/front/userPostsStore';
-import showErrorToast from '@/utils/showErrorToast';
+import showErrorToast from '@/utils/showErrorToast'
 import UserNavbar from '@/components/front/UserNavbar.vue';
 
 export default {
@@ -90,8 +95,8 @@ export default {
   },
   data() {
     return {
-      tempContent: '',
-      tempImage: ''
+      tempNickname: '',
+      tempSex: ''
     }
   },
   computed: {
@@ -99,17 +104,15 @@ export default {
   },
   methods: {
     ...mapActions(userPostsStore, ['createPosts', 'getPosts']),
-    handleCreatePost(content, image) {
-      if (!content) {
-        showErrorToast("貼文內容為必填")
-      } else if (!image.startsWith('http')) {
-        showErrorToast("圖片網址錯誤")
+    handleUpdateProfile(nickname, sex) {
+      if (!nickname || !sex) {
+        showErrorToast("匿稱和性別為必填")
       } else {
-        this.createPosts(content, image);
-        this.tempContent = '';
-        this.tempImage = '';
-        this.getPosts();
-        this.$router.push({ name: "home" })
+        // this.createPosts(content, image);
+        this.tempNickname = '';
+        this.tempSex = '';
+        // this.getPosts();
+        // this.$router.push({ name: "home" })
       }
     }
   }
@@ -133,6 +136,11 @@ export default {
     border: 2px solid black;
     content: ''
   }
+}
+
+.hvr-btn-profile:hover {
+  color: white;
+  background-color: black;
 }
 
 </style>

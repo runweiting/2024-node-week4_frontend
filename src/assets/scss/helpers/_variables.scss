@@ -326,6 +326,8 @@ $theme-colors: (
   // custom
   "dark": #000400,
   // custom
+  "white": white,
+  // custom
 ) !default;
 // scss-docs-end theme-colors-map
 
@@ -388,7 +390,7 @@ $enable-cssgrid: false !default;
 $enable-button-pointers: true !default;
 $enable-rfs: true !default;
 $enable-validation-icons: true !default;
-$enable-negative-margins: false !default;
+$enable-negative-margins: true !default; // custom
 $enable-deprecation-messages: true !default;
 $enable-important-utilities: true !default;
 

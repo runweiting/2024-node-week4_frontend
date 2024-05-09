@@ -18,7 +18,7 @@ const baseRoutes = [
       {
         path: "sign-up",
         name: "sign-up",
-        // component: () => import("@/views/front/UserHome.vue"),
+        component: () => import("@/views/front/UserSignUp.vue"),
         meta: {
           title: "註冊",
         },
@@ -32,22 +32,36 @@ const baseRoutes = [
       {
         path: "member",
         name: "member",
+        redirect: "member/profile",
+        component: () => import("@/views/front/UserMember.vue"),
         meta: {
           title: "個人設定",
         },
         children: [
           {
-            path: "my-posts",
-            name: "my-posts",
+            path: "profile",
+            name: "profile",
+            component: () => import("../components/front/UserProfile.vue"),
             meta: {
-              title: "我的貼文牆",
+              title: "個人資料",
             },
           },
           {
-            path: "profile",
-            name: "profile",
+            path: "nickname",
+            name: "nickname",
+            component: () =>
+              import("../components/front/UserUpdateNickname.vue"),
             meta: {
-              title: "修改個人資料",
+              title: "修改匿稱",
+            },
+          },
+          {
+            path: "password",
+            name: "password",
+            component: () =>
+              import("../components/front/UserUpdatePassword.vue"),
+            meta: {
+              title: "重設密碼",
             },
           },
         ],

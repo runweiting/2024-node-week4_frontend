@@ -88,7 +88,7 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import userPostsStore from '@/stores/front/userPostsStore';
-import UserNavbar from '../../../components/front/UserNavbar.vue';
+import UserNavbar from '@/components/front/UserNavbar.vue';
 
 export default {
   components: {

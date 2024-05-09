@@ -7,14 +7,15 @@
         </div>
         <div class="col text-center">
           <h1 class="text-primary display-3">MetaWall</h1>
-          <h4 class="helvetica-neue fw-bold mb-9">到元宇宙展開全新社交圈</h4>
+          <h4 class="helvetica-neue fw-bold mb-9">註冊</h4>
+          <input type="text" class="form-control rounded-0 border border-black border-2 mb-4" placeholder="匿稱" aria-label="nickname" aria-describedby="nickname">
           <input type="text" class="form-control rounded-0 border border-black border-2 mb-4" placeholder="Email" aria-label="email" aria-describedby="email">
           <input type="text" class="form-control rounded-0 border border-black border-2 mb-8" placeholder="Password" aria-label="password" aria-describedby="password">
-          <button type="button" class="btn btn-primary border border-2 border-black text-white azeret-mono fw-bold w-100 mb-4" style=" border-bottom: 4px solid black !important;">
-            登入
+          <button type="button" class="btn btn-gray border border-2 border-black text-white azeret-mono fw-bold w-100 mb-4" style=" border-bottom: 4px solid black !important;">
+            註冊
           </button>
-          <button type="button" class="btn azeret-mono fw-bold w-100 hvr-btn-signin">
-            註冊帳號
+          <button type="button" class="btn azeret-mono fw-bold w-100 hvr-btn-signup">
+            登入
           </button>
         </div>
       </div>
@@ -38,7 +39,7 @@
     z-index: -1;
     display: block;
     width: 870px;
-    height: 506px;
+    height: 560px;
     background-color: #00000040;
     content: ''
   }
@@ -49,9 +50,8 @@
   font-family: "Azeret Mono";
 }
 
-.hvr-btn-signin:hover {
-  color: white;
-  background-color: #9B9893;
+.hvr-btn-signup:hover {
+  background-color: #e2edfa;
   border: 2px solid black;
 }
 
