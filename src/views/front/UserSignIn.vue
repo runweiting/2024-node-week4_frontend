@@ -33,8 +33,8 @@
 <script>
 import { ErrorMessage } from 'vee-validate';
 import { mapActions } from 'pinia';
-import isPassword from '@/utils/validators/isPassword';
 import userUsersStore from '@/stores/front/userUsersStore';
+import isPassword from '@/utils/validators/isPassword';
 
 export default {
   components: { ErrorMessage },

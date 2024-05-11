@@ -19,7 +19,7 @@
           </div>
         </div>
         <!-- 全體動態牆-無動態 -->
-        <div v-if="!postsList.length" class="row">
+        <div v-if="!postsList" class="row">
           <div class="col">
             <div class="bg-white rounded border border-2 border-black" style="border-bottom: 4px solid black !important">
               <div class="d-flex align-items-center gap-2 border-bottom border-2 border-black p-4 w-100" style="height: 52px;">
@@ -34,7 +34,7 @@
           </div>
         </div>
         <!-- 全體動態牆-有動態 -->
-        <div v-if="postsList.length" class="row gy-6">
+        <div v-if="postsList" class="row gy-6">
           <div v-for="post in postsList" :key="post._id" class="col-12">
             <div class="bg-white rounded border border-2 border-black p-6" style="border-bottom: 4px solid black !important">
               <div class="d-flex gap-2 mb-4">

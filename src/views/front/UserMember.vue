@@ -56,7 +56,7 @@ import UserNavbar from '@/components/front/UserNavbar.vue';
 export default {
   components: {
     UserNavbar
-  }
+  },
 }
 </script>
 

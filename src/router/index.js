@@ -1,4 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import Swal from "sweetalert2";
+import isUserSignIn from "@/utils/validators/isUserSignIn";
 
 // 1. 定義基本路由 baseRoutes
 const baseRoutes = [
@@ -27,7 +29,7 @@ const baseRoutes = [
         path: "metawall",
         name: "metawall",
         component: () => import("@/views/front/UserHome.vue"),
-        meta: { title: "全體動態牆" },
+        meta: { title: "全體動態牆", requiresAuth: true },
       },
       {
         path: "member",
@@ -36,6 +38,7 @@ const baseRoutes = [
         component: () => import("@/views/front/UserMember.vue"),
         meta: {
           title: "個人設定",
+          requiresAuth: true,
         },
         children: [
           {
@@ -72,6 +75,7 @@ const baseRoutes = [
         // component: () => import("@/views/front/"),
         meta: {
           title: "控制頁面",
+          requiresAuth: true,
         },
         children: [
           {
@@ -130,6 +134,21 @@ const router = createRouter({
   },
   // linkActiveClass 用於開啟 <RouterLink> 的默認樣式 .active (Bootstrap樣式)
   linkActiveClass: "active",
+});
+
+// 4. 全域前置守衛 router.beforeEach
+// 每次路由切換前驗證，如果目標路由 requiresAuth 為 true 且用戶未登入，彈出提醒框並將用戶導向登入頁面
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isUserSignIn()) {
+    Swal.fire({
+      title: "請先登入",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    next({ name: "sign-in" });
+  } else {
+    next();
+  }
 });
 
 // 5. 導出 Vue Router 實例
