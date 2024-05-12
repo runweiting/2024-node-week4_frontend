@@ -1,0 +1,1 @@
+function n(s){if(!s)return"password為必填";if(s.length<8)return"password需至少8碼";const r=/[a-zA-Z]/.test(s),t=/\d/.test(s);return r?t?!0:"password需至少一個數字":"password需至少一個英文字母"}const e="/2024-node-week4_frontend/assets/signin-AVpiJ2bs.svg";export{e as _,n as i};
