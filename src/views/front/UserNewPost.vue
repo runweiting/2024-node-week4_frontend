@@ -3,22 +3,6 @@
   <div class="container py-12" style="height: 100dvh;">
     <div class="row">
       <div class="col-8">
-        <div class="row mb-4">
-          <div class="col-4">
-            <select class="form-select rounded-0 border-2 border-black py-3 ps-4 pe-10" aria-label="posts select">
-              <option selected>最新貼文</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
-          <div class="col-8">
-            <div class="input-group">
-              <input type="text" class="form-control rounded-0 border-2 border-black py-3 px-4" placeholder="搜尋貼文" aria-label="搜尋貼文" aria-describedby="搜尋貼文">
-              <button class="btn btn-primary rounded-0 px-4" type="button" id="button-addon2"><i class="bi bi-search text-white fs-4"></i></button>
-            </div>
-          </div>
-        </div>
         <div class="row">
           <div class="col shadow-new-post">
             <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold py-5 mb-6 w-100 text-center">
@@ -31,17 +15,24 @@
             <div class="bg-white rounded border border-2 border-black p-8" style="border-bottom: 4px solid black !important">
               <div class="d-flex flex-column gap-1 mb-4">
                 <span>貼文內容</span>
-                <textarea v-model="tempContent" class="form-control rounded-0 border border-black border-2" placeholder="請輸入內容" aria-label="post-content"></textarea>
+                <textarea v-model="content" class="form-control rounded-0 border border-black border-2" placeholder="請輸入內容" aria-label="post-content"></textarea>
               </div>
               <div class="d-flex flex-column gap-1 mb-4">
                 <span>圖片網址</span>
-                <input v-model="tempImage" type="text" class="form-control rounded-0 border border-black border-2" placeholder="請輸入網址" aria-label="imageUrl" aria-describedby="imageUrl">
+                <input v-model="image" type="text" class="form-control rounded-0 border border-black border-2" placeholder="請輸入網址" aria-label="imageUrl" aria-describedby="imageUrl">
               </div>
               <!-- <button type="button" class="btn bg-black text-white mb-4" style="width: 128px;">上傳圖片</button> -->
               <div class="mb-4">
-                <img :src="tempImage" alt="tempImage" class="object-fit-cover img-fluid">
+                <img :src="image" alt="tempImage" class="object-fit-cover img-fluid">
               </div>
-              <button @click="handleCreatePost(tempContent, tempImage)" type="button" class="btn btn-light-gray py-4 border border-2 border-black w-50">送出貼文</button>
+              <div class="mb-4">
+                <span class="d-block">貼文標籤</span>
+                <div v-for="tag in tags" :key="tag" class="form-check form-check-inline">
+                  <input v-model="selectedTags" class="form-check-input" type="checkbox" :id="tag" :value="tag">
+                  <label class="form-check-label" :for="tag">{{ tag }}</label>
+                </div>
+              </div>
+              <button @click="handleCreatePost(this.content, this.image, this.selectedTags)" type="button" class="btn btn-light-gray py-4 border border-2 border-black w-50">送出貼文</button>
             </div>
           </div>
         </div>
@@ -90,27 +81,42 @@ export default {
   },
   data() {
     return {
-      tempContent: '',
-      tempImage: ''
+      content: '',
+      image: '',
+      tags: ['音樂', '運動', '美食', '旅遊', '其他'],
+      selectedTags: []
+    }
+  },
+  watch: {
+    selectedTags(tags) {
+      if (tags.length > 3) {
+        this.selectedTags.pop()
+      }
     }
   },
   computed: {
     ...mapState(userPostsStore, ['newPost']),
   },
   methods: {
-    ...mapActions(userPostsStore, ['createPosts', 'getPosts']),
-    handleCreatePost(content, image) {
+    ...mapActions(userPostsStore, ['createPost', 'getPosts']),
+    handleCreatePost(content, image, tags) {
       if (!content) {
         showErrorToast("貼文內容為必填")
-      } else if (!image.startsWith('http')) {
-        showErrorToast("圖片網址錯誤")
-      } else {
-        this.createPosts(content, image);
-        this.tempContent = '';
-        this.tempImage = '';
-        this.getPosts();
-        this.$router.push({ name: "home" })
+        return
       }
+      if (!image.startsWith('http')) {
+        showErrorToast("圖片網址錯誤")
+        return
+      }
+      if (tags.length === 0) {
+        showErrorToast("貼文標籤為必填")
+        return
+      }
+      this.createPost(content, image, tags);
+      this.tempContent = '';
+      this.tempImage = '';
+      this.tags.length = 0;
+      this.$router.push({ name: "metawall" })
     }
   }
 }

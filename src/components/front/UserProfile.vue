@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import userUsersStore from '@/stores/front/userUsersStore';
 import { mapState, mapActions } from 'pinia';
+import userUsersStore from '@/stores/front/userUsersStore';
 
 export default {
   mounted() {

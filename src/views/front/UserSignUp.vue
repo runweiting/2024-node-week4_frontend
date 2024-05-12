@@ -63,11 +63,11 @@ export default {
     onSubmit() {
       if (this.password !== this.confirmPassword) {
         showWarningToast("密碼不一致")
-      } else {
-        this.signUp(this.name, this.email, this.password, this.confirmPassword);
-        this.$refs.signUp.resetForm();
-        this.$router.push({ name: 'sign-in'})
-      }
+        return
+      };
+      this.signUp(this.name, this.email, this.password, this.confirmPassword);
+      this.$refs.signUp.resetForm();
+      this.$router.push({ name: 'sign-in'})
     },
   },
 }

@@ -5,7 +5,7 @@
       <div class="col-8">
         <div class="row mb-4">
           <div class="col-4">
-            <select @input="handleGetPosts(timeSort)" v-model="timeSort" class="form-select rounded-0 border-2 border-black py-3 ps-4 pe-10" aria-label="posts select">
+            <select @input="handleGetPosts(timeSort)" v-model="timeSort" class="form-select rounded-0 border-2 border-black py-3 ps-4 pe-10" aria-label="posts-select">
               <option value="" selected>請選擇順序</option>
               <option value="asc">從新到舊</option>
               <option value="desc">從舊到新</option>
@@ -61,9 +61,9 @@
           <div class="d-flex flex-column gap-6">
             <div class="d-flex align-items-center gap-4">
               <div class="rounded-circle overflow-hidden" style="width: 50px; height: 50px;">
-                <img src="../../../public/user@2x.png" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid">
+                <img :src="profile.photo" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 50px;">
               </div>
-              <span class="noto-sans-tc fw-bold">邊緣小杰</span>
+              <span class="noto-sans-tc fw-bold">{{ profile.name }}</span>
             </div>
             <div class="d-flex align-items-center gap-4">
               <div class="rounded-circle bg-secondary border border-2 border-black position-relative" style="width: 50px; height: 50px;">
@@ -88,6 +88,7 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import userPostsStore from '@/stores/front/userPostsStore';
+import userUsersStore from '@/stores/front/userUsersStore';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 
 export default {
@@ -100,14 +101,17 @@ export default {
       keyword: ''
     }
   },
-  async mounted() {
-    await this.getPosts();
+  mounted() {
+    this.getPosts();
+    this.getProfile();
   },
   computed: {
     ...mapState(userPostsStore, ['postsList']),
+    ...mapState(userUsersStore, ['profile'])
   },
   methods: {
     ...mapActions(userPostsStore, ['getPosts']),
+    ...mapActions(userUsersStore, ['getProfile']),
     handleGetPosts(timeSort) {
       this.getPosts(timeSort)
     },

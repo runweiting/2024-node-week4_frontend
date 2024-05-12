@@ -50,10 +50,9 @@ const baseRoutes = [
             },
           },
           {
-            path: "nickname",
-            name: "nickname",
-            component: () =>
-              import("../components/front/UserUpdateNickname.vue"),
+            path: "name",
+            name: "name",
+            component: () => import("../components/front/UserUpdateName.vue"),
             meta: {
               title: "修改匿稱",
             },

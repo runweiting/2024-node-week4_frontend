@@ -13,7 +13,7 @@
         <div class="row">
           <div class="col ps-5">
             <RouterLink :to="{ name: 'profile' }" class="btn btn-white hvr-btn-profile mb-n1 noto-sans-tc" style="border: 2px solid black; border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">我的匿稱</RouterLink>
-            <RouterLink :to="{ name: 'nickname' }" class="btn btn-white hvr-btn-profile mb-n1 noto-sans-tc" style="border: 2px solid black; border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">修改匿稱</RouterLink>
+            <RouterLink :to="{ name: 'name' }" class="btn btn-white hvr-btn-profile mb-n1 noto-sans-tc" style="border: 2px solid black; border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">修改匿稱</RouterLink>
             <RouterLink :to="{ name: 'password' }" class="btn btn-white hvr-btn-profile mb-n1 ms-n1 noto-sans-tc" style="border: 2px solid black; border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0 !important;">重設密碼</RouterLink>
           </div>
         </div>
@@ -27,9 +27,9 @@
           <div class="d-flex flex-column gap-6">
             <div class="d-flex align-items-center gap-4">
               <div class="rounded-circle overflow-hidden" style="width: 50px; height: 50px;">
-                <img src="../../../public/user@2x.png" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid">
+                <img :src="profile.photo" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 50px;">
               </div>
-              <span class="noto-sans-tc fw-bold">邊緣小杰</span>
+              <span class="noto-sans-tc fw-bold">{{ profile.name }}</span>
             </div>
             <div class="d-flex align-items-center gap-4">
               <div class="rounded-circle bg-secondary border border-2 border-black position-relative" style="width: 50px; height: 50px;">
@@ -51,13 +51,25 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import userUsersStore from '@/stores/front/userUsersStore';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 
 export default {
   components: {
     UserNavbar
   },
+  mounted() {
+    this.getProfile();
+  },
+  computed: {
+    ...mapState(userUsersStore, ['profile'])
+  },
+  methods: {
+    ...mapActions(userUsersStore, ['getProfile'])
+  }
 }
+
 </script>
 
 <style lang="scss">

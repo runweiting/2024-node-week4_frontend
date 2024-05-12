@@ -5,7 +5,7 @@ import showErrorToast from "@/utils/showErrorToast";
 import showSuccessToast from "@/utils/showSuccessToast";
 
 const $loading = useLoading({});
-const { VITE_LOCALHOST } = import.meta.env;
+const { VITE_APP_URL } = import.meta.env;
 const userPostsStore = defineStore("userPostsStore", {
   state: () => ({
     postsList: [],
@@ -13,7 +13,7 @@ const userPostsStore = defineStore("userPostsStore", {
   actions: {
     async getPosts(timeSort = null, keyword = null) {
       const loader = $loading.show();
-      let url = `${VITE_LOCALHOST}/posts`;
+      let url = `${VITE_APP_URL}/posts`;
       if (timeSort !== null) {
         url += `?timeSort=${timeSort}`;
         if (keyword) {
@@ -30,16 +30,16 @@ const userPostsStore = defineStore("userPostsStore", {
         loader.hide();
       }
     },
-    async createPosts(tempContent, tempImage) {
+    async createPost(content, image, tags) {
       const loader = $loading.show();
+      const url = `${VITE_APP_URL}/posts`;
       try {
-        await axios.post(VITE_LOCALHOST, {
-          user: "662a6bacbf706db5129b49fa",
-          content: tempContent,
-          image: tempImage,
-          likes: "",
+        const res = await axios.post(url, {
+          content,
+          image,
+          tags,
         });
-        showSuccessToast("新增成功");
+        showSuccessToast(res.data.message);
         this.getPosts();
       } catch (err) {
         showErrorToast(err.response.data.message);
