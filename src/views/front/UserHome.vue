@@ -42,13 +42,13 @@
                   <img :src="post.user.photo" :alt="`user-photo-${post.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
                 </div>
                 <div class="d-flex flex-column justify-content-between text-start">
-                  <span class="noto-sans-tc text-primary fw-bold">{{ profile.name }}</span>
+                  <span class="noto-sans-tc text-primary fw-bold">{{ post.user.name }}</span>
                   <small class="baloo-da-2 text-gray">{{ formattedTime(post.createdAt) }}</small>
                 </div>
               </div>
               <p class="noto-sans-tc mb-4">{{ post.content }}
               </p>
-              <img :src="post.image" alt="雪景" class="object-fit-cover img-fluid">
+              <img :src="post.image" :alt="`photo-${post.image}`"  class="object-fit-cover img-fluid">
             </div>
           </div>
         </div>
