@@ -33,77 +33,76 @@ const baseRoutes = [
           title: "全體動態牆",
           requiresAuth: true,
         },
+      },
+      {
+        path: "member",
+        name: "member",
+        redirect: "member/profile",
+        component: () => import("@/views/front/UserMember.vue"),
+        meta: {
+          title: "個人設定",
+          requiresAuth: true,
+        },
         children: [
           {
-            path: "member",
-            name: "member",
-            redirect: "member/profile",
-            component: () => import("@/views/front/UserMember.vue"),
+            path: "profile",
+            name: "profile",
+            component: () => import("../components/front/UserProfile.vue"),
             meta: {
-              title: "個人設定",
+              title: "個人資料",
             },
-            children: [
-              {
-                path: "profile",
-                name: "profile",
-                component: () => import("../components/front/UserProfile.vue"),
-                meta: {
-                  title: "個人資料",
-                },
-              },
-              {
-                path: "name",
-                name: "name",
-                component: () =>
-                  import("../components/front/UserUpdateName.vue"),
-                meta: {
-                  title: "修改匿稱",
-                },
-              },
-              {
-                path: "password",
-                name: "password",
-                component: () =>
-                  import("../components/front/UserUpdatePassword.vue"),
-                meta: {
-                  title: "重設密碼",
-                },
-              },
-            ],
           },
           {
-            path: "dashboard",
-            name: "dashboard",
-            // component: () => import("@/views/front/"),
+            path: "name",
+            name: "name",
+            component: () => import("../components/front/UserUpdateName.vue"),
             meta: {
-              title: "控制頁面",
+              title: "修改匿稱",
             },
-            children: [
-              {
-                path: "new-post",
-                name: "new-post",
-                component: () => import("@/views/front/UserNewPost.vue"),
-                meta: {
-                  title: "張貼動態",
-                },
-              },
-              {
-                path: "following-list",
-                name: "following-list",
-                // component: () => import("@/components/front/"),
-                meta: {
-                  title: "追蹤名單",
-                },
-              },
-              {
-                path: "liked-articles",
-                name: "liked-articles",
-                // component: () => import("@/components/front/"),
-                meta: {
-                  title: "按讚貼文",
-                },
-              },
-            ],
+          },
+          {
+            path: "password",
+            name: "password",
+            component: () =>
+              import("../components/front/UserUpdatePassword.vue"),
+            meta: {
+              title: "重設密碼",
+            },
+          },
+        ],
+      },
+      {
+        path: "dashboard",
+        name: "dashboard",
+        // component: () => import("@/views/front/"),
+        meta: {
+          title: "控制頁面",
+          requiresAuth: true,
+        },
+        children: [
+          {
+            path: "new-post",
+            name: "new-post",
+            component: () => import("@/views/front/UserNewPost.vue"),
+            meta: {
+              title: "張貼動態",
+            },
+          },
+          {
+            path: "following-list",
+            name: "following-list",
+            // component: () => import("@/components/front/"),
+            meta: {
+              title: "追蹤名單",
+            },
+          },
+          {
+            path: "liked-articles",
+            name: "liked-articles",
+            // component: () => import("@/components/front/"),
+            meta: {
+              title: "按讚貼文",
+            },
           },
         ],
       },
