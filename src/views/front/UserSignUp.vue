@@ -85,7 +85,7 @@ export default {
     z-index: -1;
     display: block;
     width: 870px;
-    height: 625px;
+    height: 682px;
     background-color: #00000040;
     content: ''
   }

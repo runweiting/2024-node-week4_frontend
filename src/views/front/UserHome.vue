@@ -38,11 +38,11 @@
           <div v-for="post in postsList" :key="post._id" class="col-12">
             <div class="bg-white rounded border border-2 border-black p-6" style="border-bottom: 4px solid black !important">
               <div class="d-flex gap-2 mb-4">
-                <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
-                  <img :src="post.user.photo" :alt="`customer-feedback-${post.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
-                </div>
+                <!-- <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
+                  <img :src="post.user.photo" :alt="`user-photo-${post.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
+                </div> -->
                 <div class="d-flex flex-column justify-content-between text-start">
-                  <span class="noto-sans-tc text-primary fw-bold">{{ post.user.name }}</span>
+                  <span class="noto-sans-tc text-primary fw-bold">{{ post.name }}</span>
                   <small class="baloo-da-2 text-gray">{{ formattedTime(post.createdAt) }}</small>
                 </div>
               </div>

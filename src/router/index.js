@@ -29,7 +29,9 @@ const baseRoutes = [
         path: "metawall",
         name: "metawall",
         component: () => import("@/views/front/UserHome.vue"),
-        meta: { title: "全體動態牆", requiresAuth: true },
+        meta: {
+          title: "全體動態牆",
+        },
       },
       {
         path: "member",
@@ -144,7 +146,7 @@ router.beforeEach((to, from, next) => {
       icon: "error",
       confirmButtonText: "OK",
     });
-    next(this.$router.push({ name: "sign-in" }));
+    next({ name: "sign-in" });
   } else {
     next();
   }

@@ -3,9 +3,10 @@ import { defineStore } from "pinia";
 import { useLoading } from "vue-loading-overlay";
 import showErrorToast from "@/utils/showErrorToast";
 import showSuccessToast from "@/utils/showSuccessToast";
+import isUserSignIn from "@/utils/validators/isUserSignIn";
 
 const $loading = useLoading({});
-const { VITE_APP_URL } = import.meta.env;
+const { VITE_LOCALHOST } = import.meta.env;
 const userUsersStore = defineStore("userUsersStore", {
   state: () => ({
     profile: {},
@@ -13,7 +14,7 @@ const userUsersStore = defineStore("userUsersStore", {
   actions: {
     async signUp(name, email, password, confirmPassword) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/users/sign_up`;
+      const url = `${VITE_LOCALHOST}/users/sign_up`;
       try {
         const res = await axios.post(url, {
           name,
@@ -32,30 +33,30 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async signIn(email, password) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/users/sign_in`;
-      const myToken = document.cookie.replace(
-        /(?:(?:^|.*;\s*)myToken\s*=\s*([^;]*).*$)|^.*$/,
-        "$1",
-      );
-      if (myToken) {
-        // Bearer token
-        axios.defaults.headers.common.Authorization = `Bearer ${myToken}`;
-      }
-      try {
-        const res = await axios.post(url, {
-          email,
-          password,
-        });
-        showSuccessToast(res.data.message);
-      } catch (err) {
-        showErrorToast(err.response.data.message);
-      } finally {
-        loader.hide();
+      const url = `${VITE_LOCALHOST}/users/sign_in`;
+      // 檢查使用者是否已登入
+      if (!isUserSignIn()) {
+        try {
+          const res = await axios.post(url, {
+            email,
+            password,
+          });
+          const { expired, token } = res.data;
+          document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
+          axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+          showSuccessToast(res.data.message);
+        } catch (err) {
+          showErrorToast(err.response.data.message);
+        } finally {
+          loader.hide();
+        }
+      } else {
+        showSuccessToast("您已經登入！");
       }
     },
     async getProfile() {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/users/profile`;
+      const url = `${VITE_LOCALHOST}/users/profile`;
       try {
         const res = await axios.get(url);
         const { data } = res.data;
@@ -69,7 +70,7 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async updateProfile(name, gender) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/users/profile`;
+      const url = `${VITE_LOCALHOST}/users/profile`;
       try {
         const res = await axios.patch(url, { name, gender });
         const { data } = res.data;
@@ -83,7 +84,7 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async updatePassword(password, confirmPassword) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/users/update_password`;
+      const url = `${VITE_LOCALHOST}/users/update_password`;
       try {
         const res = await axios.patch(url, { password, confirmPassword });
         const { expired, token } = res.data;
