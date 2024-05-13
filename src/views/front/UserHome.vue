@@ -39,10 +39,10 @@
             <div class="bg-white rounded border border-2 border-black p-6" style="border-bottom: 4px solid black !important">
               <div class="d-flex gap-2 mb-4">
                 <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
-                  <img :src="post.photo" :alt="`user-photo-${post.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
+                  <img :src="profile.photo" :alt="`user-photo-${profile.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
                 </div>
                 <div class="d-flex flex-column justify-content-between text-start">
-                  <span class="noto-sans-tc text-primary fw-bold">{{ post.name }}</span>
+                  <span class="noto-sans-tc text-primary fw-bold">{{ profile.name }}</span>
                   <small class="baloo-da-2 text-gray">{{ formattedTime(post.createdAt) }}</small>
                 </div>
               </div>
