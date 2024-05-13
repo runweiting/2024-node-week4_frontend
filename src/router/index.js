@@ -10,14 +10,6 @@ const baseRoutes = [
     meta: { navbarType: "frontend" },
     children: [
       {
-        path: "sign-in",
-        name: "sign-in",
-        component: () => import("@/views/front/UserSignIn.vue"),
-        meta: {
-          title: "登入",
-        },
-      },
-      {
         path: "sign-up",
         name: "sign-up",
         component: () => import("@/views/front/UserSignUp.vue"),
@@ -26,82 +18,92 @@ const baseRoutes = [
         },
       },
       {
+        path: "sign-in",
+        name: "sign-in",
+        component: () => import("@/views/front/UserSignIn.vue"),
+        meta: {
+          title: "登入",
+        },
+      },
+      {
         path: "metawall",
         name: "metawall",
         component: () => import("@/views/front/UserHome.vue"),
         meta: {
           title: "全體動態牆",
-        },
-      },
-      {
-        path: "member",
-        name: "member",
-        redirect: "member/profile",
-        component: () => import("@/views/front/UserMember.vue"),
-        meta: {
-          title: "個人設定",
           requiresAuth: true,
         },
         children: [
           {
-            path: "profile",
-            name: "profile",
-            component: () => import("../components/front/UserProfile.vue"),
+            path: "member",
+            name: "member",
+            redirect: "member/profile",
+            component: () => import("@/views/front/UserMember.vue"),
             meta: {
-              title: "個人資料",
+              title: "個人設定",
             },
+            children: [
+              {
+                path: "profile",
+                name: "profile",
+                component: () => import("../components/front/UserProfile.vue"),
+                meta: {
+                  title: "個人資料",
+                },
+              },
+              {
+                path: "name",
+                name: "name",
+                component: () =>
+                  import("../components/front/UserUpdateName.vue"),
+                meta: {
+                  title: "修改匿稱",
+                },
+              },
+              {
+                path: "password",
+                name: "password",
+                component: () =>
+                  import("../components/front/UserUpdatePassword.vue"),
+                meta: {
+                  title: "重設密碼",
+                },
+              },
+            ],
           },
           {
-            path: "name",
-            name: "name",
-            component: () => import("../components/front/UserUpdateName.vue"),
+            path: "dashboard",
+            name: "dashboard",
+            // component: () => import("@/views/front/"),
             meta: {
-              title: "修改匿稱",
+              title: "控制頁面",
             },
-          },
-          {
-            path: "password",
-            name: "password",
-            component: () =>
-              import("../components/front/UserUpdatePassword.vue"),
-            meta: {
-              title: "重設密碼",
-            },
-          },
-        ],
-      },
-      {
-        path: "dashboard",
-        name: "dashboard",
-        // component: () => import("@/views/front/"),
-        meta: {
-          title: "控制頁面",
-          requiresAuth: true,
-        },
-        children: [
-          {
-            path: "new-post",
-            name: "new-post",
-            component: () => import("@/views/front/UserNewPost.vue"),
-            meta: {
-              title: "張貼動態",
-            },
-          },
-          {
-            path: "following-list",
-            name: "following-list",
-            // component: () => import("@/components/front/"),
-            meta: {
-              title: "追蹤名單",
-            },
-          },
-          {
-            path: "liked-articles",
-            name: "liked-articles",
-            // component: () => import("@/components/front/"),
-            meta: {
-              title: "按讚貼文",
-            },
+            children: [
+              {
+                path: "new-post",
+                name: "new-post",
+                component: () => import("@/views/front/UserNewPost.vue"),
+                meta: {
+                  title: "張貼動態",
+                },
+              },
+              {
+                path: "following-list",
+                name: "following-list",
+                // component: () => import("@/components/front/"),
+                meta: {
+                  title: "追蹤名單",
+                },
+              },
+              {
+                path: "liked-articles",
+                name: "liked-articles",
+                // component: () => import("@/components/front/"),
+                meta: {
+                  title: "按讚貼文",
+                },
+              },
+            ],
           },
         ],
       },

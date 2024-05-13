@@ -51,7 +51,7 @@ const userUsersStore = defineStore("userUsersStore", {
           loader.hide();
         }
       } else {
-        showSuccessToast("您已經登入！");
+        showSuccessToast("您已登入！");
       }
     },
     async getProfile() {
