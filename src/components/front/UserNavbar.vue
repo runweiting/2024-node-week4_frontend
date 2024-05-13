@@ -19,7 +19,7 @@
             <li>
               <RouterLink :to="{ name: 'member' }" class="dropdown-item py-2">修改個人資料</RouterLink>
             </li>
-            <li><a class="dropdown-item py-2" href="#">登出</a></li>
+            <li><a @click="signOut" class="dropdown-item py-2" href="#">登出</a></li>
           </ul>
         </div>
       </div>
@@ -39,7 +39,7 @@ export default {
     ...mapState(userUsersStore, ['profile'])
   },
   methods: {
-    ...mapActions(userUsersStore, ['getProfile'])
+    ...mapActions(userUsersStore, ['getProfile', 'signOut'])
   }
 }
 

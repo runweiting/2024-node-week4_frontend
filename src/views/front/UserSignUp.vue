@@ -67,7 +67,6 @@ export default {
       };
       this.signUp(this.name, this.email, this.password, this.confirmPassword);
       this.$refs.signUp.resetForm();
-      this.$router.push({ name: 'sign-in'})
     },
   },
 }

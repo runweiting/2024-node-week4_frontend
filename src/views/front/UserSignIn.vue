@@ -50,7 +50,6 @@ export default {
     onSubmit() {
       this.signIn(this.email, this.password);
       this.$refs.signIn.resetForm();
-      this.$router.push({ name: 'metawall'})
     },
   },
 }

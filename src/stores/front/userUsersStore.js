@@ -1,6 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 import { useLoading } from "vue-loading-overlay";
+import router from "@/router";
 import showErrorToast from "@/utils/showErrorToast";
 import showSuccessToast from "@/utils/showSuccessToast";
 import isUserSignIn from "@/utils/validators/isUserSignIn";
@@ -14,7 +15,7 @@ const userUsersStore = defineStore("userUsersStore", {
   actions: {
     async signUp(name, email, password, confirmPassword) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/users/sign_up`;
+      const url = `${VITE_APP_URL}/users/sign-up`;
       try {
         const res = await axios.post(url, {
           name,
@@ -25,6 +26,7 @@ const userUsersStore = defineStore("userUsersStore", {
         const { expired, token } = res.data;
         document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
         showSuccessToast(res.data.message);
+        router.push({ name: "sign-in" });
       } catch (err) {
         showErrorToast(err.response.data.message);
       } finally {
@@ -33,7 +35,7 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async signIn(email, password) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/users/sign_in`;
+      const url = `${VITE_APP_URL}/users/sign-in`;
       // 檢查使用者是否已登入
       if (!isUserSignIn()) {
         try {
@@ -44,6 +46,7 @@ const userUsersStore = defineStore("userUsersStore", {
           const { expired, token } = res.data;
           document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
           axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+          router.push({ name: "metawall" });
           showSuccessToast(res.data.message);
         } catch (err) {
           showErrorToast(err.response.data.message);
@@ -84,7 +87,7 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async updatePassword(password, confirmPassword) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/users/update_password`;
+      const url = `${VITE_APP_URL}/users/update-password`;
       try {
         const res = await axios.patch(url, { password, confirmPassword });
         const { expired, token } = res.data;
@@ -92,6 +95,21 @@ const userUsersStore = defineStore("userUsersStore", {
         axios.defaults.headers.common.Authorization = null;
         const newMessage = `${res.data.message}，請重新登入！`;
         showSuccessToast(newMessage);
+      } catch (err) {
+        showErrorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
+    async signOut() {
+      const loader = $loading.show();
+      const url = `${VITE_APP_URL}/users/sign-out`;
+      try {
+        await axios.post(url);
+        document.cookie = "myToken=; expires=;";
+        axios.defaults.headers.common.Authorization = null;
+        showSuccessToast("登出成功");
+        router.push({ name: "sign-in" });
       } catch (err) {
         showErrorToast(err.response.data.message);
       } finally {
