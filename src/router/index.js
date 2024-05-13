@@ -144,7 +144,7 @@ router.beforeEach((to, from, next) => {
       icon: "error",
       confirmButtonText: "OK",
     });
-    next({ name: "sign-in" });
+    next(this.$router.push({ name: "sign-in" }));
   } else {
     next();
   }
