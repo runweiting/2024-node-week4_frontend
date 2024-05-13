@@ -6,7 +6,7 @@ import showSuccessToast from "@/utils/showSuccessToast";
 import isUserSignIn from "@/utils/validators/isUserSignIn";
 
 const $loading = useLoading({});
-const { VITE_LOCALHOST } = import.meta.env;
+const { VITE_APP_URL } = import.meta.env;
 const userUsersStore = defineStore("userUsersStore", {
   state: () => ({
     profile: {},
@@ -14,7 +14,7 @@ const userUsersStore = defineStore("userUsersStore", {
   actions: {
     async signUp(name, email, password, confirmPassword) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/sign_up`;
+      const url = `${VITE_APP_URL}/users/sign_up`;
       try {
         const res = await axios.post(url, {
           name,
@@ -33,7 +33,7 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async signIn(email, password) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/sign_in`;
+      const url = `${VITE_APP_URL}/users/sign_in`;
       // 檢查使用者是否已登入
       if (!isUserSignIn()) {
         try {
@@ -56,7 +56,7 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async getProfile() {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/profile`;
+      const url = `${VITE_APP_URL}/users/profile`;
       try {
         const res = await axios.get(url);
         const { data } = res.data;
@@ -70,7 +70,7 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async updateProfile(name, gender) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/profile`;
+      const url = `${VITE_APP_URL}/users/profile`;
       try {
         const res = await axios.patch(url, { name, gender });
         const { data } = res.data;
@@ -84,7 +84,7 @@ const userUsersStore = defineStore("userUsersStore", {
     },
     async updatePassword(password, confirmPassword) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/update_password`;
+      const url = `${VITE_APP_URL}/users/update_password`;
       try {
         const res = await axios.patch(url, { password, confirmPassword });
         const { expired, token } = res.data;
