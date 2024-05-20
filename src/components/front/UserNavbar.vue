@@ -74,8 +74,17 @@ export default {
   background-color: white;
   border: 2px solid black;
 
+  &:hover,
+  &:focus,
+  // 元素被用戶點擊按下的瞬間狀態
+  &:active {
+    color: white;
+    background-color: black !important;
+  }
+
+  // 元素有 .active，由開發者通過 JS 動態添加或移除
   &.active {
-    background-color: #efece7 !important;
+    background-color: black !important;
   }
 }
 </style>

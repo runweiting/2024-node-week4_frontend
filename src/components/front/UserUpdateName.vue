@@ -9,8 +9,8 @@
           <img :src="tempProfile.photo" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 107px;">
         </div>
         <div class="input-group text-center mb-8">
-          <input @change="uploadFile" type="file" class="form-control" id="formFile" aria-describedby="formFile" aria-label="formFile" />
-          <button type="button" class="btn btn-dark" id="formFile">上傳大頭照</button>
+          <input type="file" class="form-control" id="formFile" aria-describedby="formFile" aria-label="formFile" />
+          <button @click="uploadFile" type="button" class="btn btn-dark" id="formFile">上傳大頭照</button>
         </div>
         <div class="d-flex flex-column gap-1 mb-4">
           <span>匿稱</span>
@@ -72,7 +72,7 @@ export default {
     this.getProfile()
   },
   computed: {
-    ...mapState(userUsersStore, ['profile'])
+    ...mapState(userUsersStore, ['profile', 'photoUrl'])
   },
   methods: {
     ...mapActions(userUsersStore, ['getProfile', 'updateProfile', 'uploadFile']),
