@@ -8,8 +8,9 @@
         <div v-else class="rounded-circle overflow-hidden mx-auto mb-4" style="width: 107px; height: 107px;">
           <img :src="tempProfile.photo" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 107px;">
         </div>
-        <div class="text-center mb-3">
-          <button type="button" class="btn btn-dark rounded-0">上傳大頭照</button>
+        <div class="input-group text-center mb-8">
+          <input @change="uploadFile" type="file" class="form-control" id="formFile" aria-describedby="formFile" aria-label="formFile" />
+          <button type="button" class="btn btn-dark" id="formFile">上傳大頭照</button>
         </div>
         <div class="d-flex flex-column gap-1 mb-4">
           <span>匿稱</span>
@@ -74,7 +75,7 @@ export default {
     ...mapState(userUsersStore, ['profile'])
   },
   methods: {
-    ...mapActions(userUsersStore, ['getProfile', 'updateProfile']),
+    ...mapActions(userUsersStore, ['getProfile', 'updateProfile', 'uploadFile']),
     handleUpdateProfile(name, gender) {
       if (!name || !gender) {
         showErrorToast("匿稱和性別為必填")

@@ -117,6 +117,24 @@ const userUsersStore = defineStore("userUsersStore", {
         loader.hide();
       }
     },
+    async uploadFile() {
+      const loader = $loading.show();
+      const fileInput = document.querySelector("#formFile");
+      // 取出 fileInput 內的 file 物件
+      const file = fileInput.file[0];
+      // 新增 formData 物件
+      const formData = new FormData();
+      // formData 最後一個子節點插入 file 和 'file-to-upload'
+      formData.append("file-to-upload", file);
+      const url = `${VITE_APP_URL}/upload/file`;
+      try {
+        await axios.post(url, formData);
+      } catch (err) {
+        showErrorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
   },
 });
 
