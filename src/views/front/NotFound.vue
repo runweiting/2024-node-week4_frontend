@@ -61,19 +61,24 @@ export default {
     UserNavbar
   },
   mounted() {
-    // window.location.search 返回當前 URL 查詢字串
-    const queryString = window.location.search;
-    console.log(queryString);
-    // URLSearchParams 解析查詢字符串
+    // window.location.hash 返回當前 URL #
+    const hashString = window.location.hash;
+    console.log(hashString);
+    // 從 # 中取出查詢字串
+    const queryString = hashString.split('?')[1];
+    if (!queryString) {
+      showErrorToast('無效的回調 URL！');
+      router.push({ name: "sign-in" });
+      return;
+    }
+    // URLSearchParams 取出查詢字串
     const queryParams = new URLSearchParams(queryString);
     const token = queryParams.get('token');
     const expires = queryParams.get('expires');
-    console.log('token', token);
-    console.log('expires', expires);
     if (!token || !expires) {
       showErrorToast('您尚未登入！');
-      router.push({ name: "sign-in" })
-      return
+      router.push({ name: "sign-in" });
+      return;
     }
     document.cookie = `myToken=${token}; expires=${expires}`;
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
