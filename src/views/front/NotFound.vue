@@ -82,7 +82,11 @@ export default {
     }
     document.cookie = `myToken=${token}; expires=${expires}`;
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    router.push({ name: "metawall" });
+
+    // 以確保 cookie 和 axios.defaults.headers 設置完成
+    setTimeout(() => {
+      router.push({ name: "metawall" });
+    }, 100);
   },
 }
 </script>
