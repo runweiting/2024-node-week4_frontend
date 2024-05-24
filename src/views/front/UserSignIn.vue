@@ -18,12 +18,15 @@
             <label for="password" class="form-label">password</label>
             <ErrorMessage name="password" class="invalid-feedback"></ErrorMessage>
           </div>
-          <button type="submit" class="btn btn-primary border border-2 border-black text-white azeret-mono fw-bold w-100 mb-4" style=" border-bottom: 4px solid black !important;">
-            登入
-          </button>
-          <RouterLink :to="{ name: 'sign-up' }" class="btn azeret-mono fw-bold w-100 hvr-btn-signin">
-            註冊帳號
-          </RouterLink>
+          <div class="d-flex gap-2 mb-2">
+            <button type="submit" class="btn btn-primary border border-2 border-black text-white azeret-mono fw-bold w-100" style=" border-bottom: 4px solid black !important;">
+              登入
+            </button>
+            <RouterLink :to="{ name: 'sign-up' }" class="btn border border-2 border-black azeret-mono fw-bold w-100 hvr-btn-signin" style=" border-bottom: 4px solid black !important;">
+              註冊帳號
+            </RouterLink>
+          </div>
+          <a href="https://two024-node-week4.onrender.com/users/google" class="btn border border-2 border-black azeret-mono fw-bold w-100 hvr-btn-signin-google" style=" border-bottom: 4px solid black !important;">Google 登入</a>
         </VForm>
       </div>
     </div>
@@ -81,6 +84,12 @@ export default {
 .hvr-btn-signin:hover {
   color: white;
   background-color: #9B9893;
+  border: 2px solid black;
+}
+
+.hvr-btn-signin-google:hover {
+  color: white;
+  background-color: #03438d;
   border: 2px solid black;
 }
 

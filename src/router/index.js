@@ -26,6 +26,11 @@ const baseRoutes = [
         },
       },
       {
+        path: "callback",
+        name: "callback",
+        component: () => import("@/components/front/UserCallback.vue"),
+      },
+      {
         path: "metawall",
         name: "metawall",
         component: () => import("@/views/front/UserHome.vue"),

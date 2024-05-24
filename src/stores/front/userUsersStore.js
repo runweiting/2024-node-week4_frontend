@@ -23,8 +23,8 @@ const userUsersStore = defineStore("userUsersStore", {
           password,
           confirmPassword,
         });
-        const { expired, token } = res.data;
-        document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
+        const { expires, token } = res.data;
+        document.cookie = `myToken=${token}; expires=${expires}`;
         showSuccessToast(res.data.message);
         router.push({ name: "sign-in" });
       } catch (err) {
