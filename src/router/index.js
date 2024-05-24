@@ -8,110 +8,112 @@ const baseRoutes = [
     path: "/",
     redirect: "sign-in",
     meta: { navbarType: "frontend" },
+  },
+  {
+    path: "/sign-up",
+    name: "sign-up",
+    component: () => import("@/views/front/UserSignUp.vue"),
+    meta: {
+      title: "註冊",
+    },
+  },
+  {
+    path: "/sign-in",
+    name: "sign-in",
+    component: () => import("@/views/front/UserSignIn.vue"),
+    meta: {
+      title: "登入",
+    },
+  },
+  {
+    path: "/metawall",
+    name: "metawall",
+    component: () => import("@/views/front/UserHome.vue"),
+    meta: {
+      title: "全體動態牆",
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/member",
+    name: "member",
+    redirect: "member/profile",
+    component: () => import("@/views/front/UserMember.vue"),
+    meta: {
+      title: "個人設定",
+      requiresAuth: true,
+    },
     children: [
       {
-        path: "sign-up",
-        name: "sign-up",
-        component: () => import("@/views/front/UserSignUp.vue"),
+        path: "profile",
+        name: "profile",
+        component: () => import("../components/front/UserProfile.vue"),
         meta: {
-          title: "註冊",
+          title: "個人資料",
         },
       },
       {
-        path: "sign-in",
-        name: "sign-in",
-        component: () => import("@/views/front/UserSignIn.vue"),
+        path: "name",
+        name: "name",
+        component: () => import("../components/front/UserUpdateName.vue"),
         meta: {
-          title: "登入",
+          title: "修改匿稱",
         },
       },
       {
-        path: "metawall",
-        name: "metawall",
-        component: () => import("@/views/front/UserHome.vue"),
+        path: "password",
+        name: "password",
+        component: () => import("../components/front/UserUpdatePassword.vue"),
         meta: {
-          title: "全體動態牆",
-          requiresAuth: true,
+          title: "重設密碼",
         },
-      },
-      {
-        path: "member",
-        name: "member",
-        redirect: "member/profile",
-        component: () => import("@/views/front/UserMember.vue"),
-        meta: {
-          title: "個人設定",
-          requiresAuth: true,
-        },
-        children: [
-          {
-            path: "profile",
-            name: "profile",
-            component: () => import("../components/front/UserProfile.vue"),
-            meta: {
-              title: "個人資料",
-            },
-          },
-          {
-            path: "name",
-            name: "name",
-            component: () => import("../components/front/UserUpdateName.vue"),
-            meta: {
-              title: "修改匿稱",
-            },
-          },
-          {
-            path: "password",
-            name: "password",
-            component: () =>
-              import("../components/front/UserUpdatePassword.vue"),
-            meta: {
-              title: "重設密碼",
-            },
-          },
-        ],
-      },
-      {
-        path: "dashboard",
-        name: "dashboard",
-        // component: () => import("@/views/front/"),
-        meta: {
-          title: "控制頁面",
-          requiresAuth: true,
-        },
-        children: [
-          {
-            path: "new-post",
-            name: "new-post",
-            component: () => import("@/views/front/UserNewPost.vue"),
-            meta: {
-              title: "張貼動態",
-            },
-          },
-          {
-            path: "following-list",
-            name: "following-list",
-            // component: () => import("@/components/front/"),
-            meta: {
-              title: "追蹤名單",
-            },
-          },
-          {
-            path: "liked-articles",
-            name: "liked-articles",
-            // component: () => import("@/components/front/"),
-            meta: {
-              title: "按讚貼文",
-            },
-          },
-        ],
-      },
-      {
-        // 匹配任意路徑 -> 404 頁面
-        path: "/:pathMatch(.*)*",
-        component: () => import("@/views/front/NotFound.vue"),
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    // component: () => import("@/views/front/"),
+    meta: {
+      title: "控制頁面",
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: "new-post",
+        name: "new-post",
+        component: () => import("@/views/front/UserNewPost.vue"),
+        meta: {
+          title: "張貼動態",
+        },
+      },
+      {
+        path: "following-list",
+        name: "following-list",
+        // component: () => import("@/components/front/"),
+        meta: {
+          title: "追蹤名單",
+        },
+      },
+      {
+        path: "liked-articles",
+        name: "liked-articles",
+        // component: () => import("@/components/front/"),
+        meta: {
+          title: "按讚貼文",
+        },
+      },
+    ],
+  },
+  {
+    path: "/callback",
+    name: "callback",
+    component: () => import("@/components/front/UserCallback.vue"),
+  },
+  {
+    // 匹配任意路徑 -> 404 頁面
+    path: "/:pathMatch(.*)*",
+    component: () => import("@/views/front/NotFound.vue"),
   },
 ];
 // 2. 建立 VueRouter 實體物件
