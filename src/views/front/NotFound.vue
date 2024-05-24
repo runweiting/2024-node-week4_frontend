@@ -86,7 +86,7 @@ export default {
     // 以確保 cookie 和 axios.defaults.headers 設置完成
     setTimeout(() => {
       router.push({ name: "metawall" });
-    }, 100);
+    }, 200);
   },
 }
 </script>
