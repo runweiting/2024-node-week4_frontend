@@ -15,7 +15,9 @@ export default {
     const queryParams = new URLSearchParams(queryString);
     const token = queryParams.get('token');
     const expires = queryParams.get('expires');
-    if (!token && !expires) {
+    console.log('token', token);
+    console.log('expires', expires);
+    if (!token || !expires) {
       showErrorToast('您尚未登入！');
       router.push({ name: "sign-in" })
       return

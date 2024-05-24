@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Page Not Found</title>
+    <!-- 
+      GitHub Pages 部署的 Vue 應用程序中處理 404 頁面
+      當使用者訪問不存在的路徑時，GitHub Pages 會加載 404.html，這段 JavaScript 會自動重新導向到帶有 # 的路徑，讓 Vue Router 接手處理路由
+    -->
+    <script type="text/javascript">
+      // window.location.pathname 獲取當前頁面路徑
+      // (\/[^\/]*) 匹配一個 / 開頭，後面跟隨零個或多個非 / 字元的子串
+      // .*$ 匹配任何後續字元，直到字串結束
+      // '$1' 代表被捕獲的第一部分，即第一個 / 和隨後的字元
+      const redirect = window.location.pathname.replace(/^(\/[^\/]*).*$/, "$1");
+      // 更改當前頁面的 URL
+      window.location.replace(
+        // 當前頁面的來源(協議+域名+端口) + redirect + '#' + 當前頁面路徑 + 當前頁面查詢字串
+        window.location.origin +
+          redirect +
+          "/#" +
+          window.location.pathname +
+          window.location.search,
+      );
+    </script>
+  </head>
+  <body>
+    <h1>404 Not Found</h1>
+    <p>Redirecting...</p>
+  </body>
+</html>
