@@ -5,8 +5,11 @@
     </RouterLink>
     <div class="d-flex flex-column gap-6">
       <div class="d-flex align-items-center gap-4">
-        <div class="rounded-circle overflow-hidden" style="width: 50px; height: 50px;">
+        <div v-if="profile.photo" class="rounded-circle overflow-hidden" style="width: 50px; height: 50px;">
           <img :src="profile.photo" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 50px;">
+        </div>
+        <div v-else class="rounded-circle overflow-hidden" style="width: 50px; height: 50px;">
+          <img src="../../../public/user_default.png" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 50px;">
         </div>
         <span class="noto-sans-tc fw-bold">{{ profile.name }}</span>
       </div>
