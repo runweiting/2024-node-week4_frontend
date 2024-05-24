@@ -8,8 +8,11 @@
           </RouterLink>
         </h1>
         <div class="dropdown d-flex align-items-center gap-2">
-          <div class="rounded-circle overflow-hidden" style="width: 30px; height: 30px;">
+          <div v-if="profile.photo" class="rounded-circle overflow-hidden" style="width: 30px; height: 30px;">
             <img :src="profile.photo" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 30px;">
+          </div>
+          <div v-else class="rounded-circle overflow-hidden" style="width: 30px; height: 30px;">
+            <img src="../../../public/user_default.png" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 30px;">
           </div>
           <RouterLink 
             :to="{ name: 'member' }" class="nav-link fs-6 azeret-mono fw-bold dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Member

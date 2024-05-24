@@ -1,4 +1,5 @@
 <template>
+  <UserNavbar />
   <div class="container py-12" style="height: 100dvh;">
     <div class="row">
       <div class="col-8">
@@ -50,41 +51,33 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'pinia';
-import userPostsStore from '@/stores/front/userPostsStore'
+import axios from "axios";
+import router from "@/router";
+import showErrorToast from "@/utils/showErrorToast";
+import UserNavbar from '@/components/front/UserNavbar.vue';
 
 export default {
-  data() {
-    return {
-      timeSort: '',
-      keyword: ''
+  components: {
+    UserNavbar
+  },
+  mounted() {
+    // window.location.search 返回當前 URL 查詢字串
+    const queryString = window.location.search;
+    console.log(queryString);
+    // URLSearchParams 解析查詢字符串
+    const queryParams = new URLSearchParams(queryString);
+    const token = queryParams.get('token');
+    const expires = queryParams.get('expires');
+    console.log('token', token);
+    console.log('expires', expires);
+    if (!token || !expires) {
+      showErrorToast('您尚未登入！');
+      router.push({ name: "sign-in" })
+      return
     }
+    document.cookie = `myToken=${token}; expires=${expires}`;
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    router.push({ name: "metawall" });
   },
-  async mounted() {
-    await this.getPosts();
-  },
-  computed: {
-    ...mapState(userPostsStore, ['postsList']),
-  },
-  methods: {
-    ...mapActions(userPostsStore, ['getPosts']),
-    handleGetPosts(timeSort) {
-      this.getPosts(timeSort)
-    },
-    handleSearchPosts(keyword) {
-      this.getPosts("asc", keyword);
-    },
-    formattedTime(createdAt) {
-      const date = new Date(createdAt);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
-      const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      return formattedDate
-    }
-  }
 }
 </script>
