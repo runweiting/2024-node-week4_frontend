@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export default function showSuccessToast(message) {
+function showToast(icon, message) {
   return new Promise((resolve) => {
     const Toast = Swal.mixin({
       toast: true,
@@ -14,10 +14,24 @@ export default function showSuccessToast(message) {
       },
     });
     Toast.fire({
-      icon: "success",
+      icon,
       title: message,
     }).then(() => {
       resolve();
     });
   });
 }
+
+function errorToast(message) {
+  showToast("error", message);
+}
+
+function warningToast(message) {
+  showToast("warning", message);
+}
+
+function successToast(message) {
+  showToast("success", message);
+}
+
+export { errorToast, warningToast, successToast };

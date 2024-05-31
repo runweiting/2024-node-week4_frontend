@@ -7,17 +7,16 @@
 <script>
 import axios from "axios";
 import router from "@/router";
-import showErrorToast from "@/utils/showErrorToast";
+import { errorToast } from "@/utils/swalToasts";
 
 export default {
   mounted() {
     // window.location.hash 返回當前 URL #
     const hashString = window.location.hash;
-    console.log(hashString);
     // 從 # 中取出查詢字串
     const queryString = hashString.split('?')[1];
     if (!queryString) {
-      showErrorToast('無效的回調 URL！');
+      errorToast('無效的回調 URL！');
       router.push({ name: "sign-in" });
       return;
     }
@@ -26,7 +25,7 @@ export default {
     const token = queryParams.get('token');
     const expires = queryParams.get('expires');
     if (!token || !expires) {
-      showErrorToast('您尚未登入！');
+      errorToast('您尚未登入！');
       router.push({ name: "sign-in" });
       return;
     }

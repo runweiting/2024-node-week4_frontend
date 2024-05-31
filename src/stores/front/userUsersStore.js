@@ -2,8 +2,7 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { useLoading } from "vue-loading-overlay";
 import router from "@/router";
-import showErrorToast from "@/utils/showErrorToast";
-import showSuccessToast from "@/utils/showSuccessToast";
+import { errorToast, successToast } from "@/utils/swalToasts";
 import isUserSignIn from "@/utils/validators/isUserSignIn";
 
 const $loading = useLoading({});
@@ -25,10 +24,10 @@ const userUsersStore = defineStore("userUsersStore", {
         });
         const { expires, token } = res.data;
         document.cookie = `myToken=${token}; expires=${expires}`;
-        showSuccessToast(res.data.message);
+        successToast(res.data.message);
         router.push({ name: "sign-in" });
       } catch (err) {
-        showErrorToast(err.response.data.message);
+        errorToast(err.response.data.message);
       } finally {
         loader.hide();
       }
@@ -47,14 +46,14 @@ const userUsersStore = defineStore("userUsersStore", {
           document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
           axios.defaults.headers.common.Authorization = `Bearer ${token}`;
           router.push({ name: "metawall" });
-          showSuccessToast(res.data.message);
+          successToast(res.data.message);
         } catch (err) {
-          showErrorToast(err.response.data.message);
+          errorToast(err.response.data.message);
         } finally {
           loader.hide();
         }
       } else {
-        showSuccessToast("您已登入！");
+        successToast("您已登入！");
         router.push({ name: "metawall" });
       }
     },
@@ -65,9 +64,9 @@ const userUsersStore = defineStore("userUsersStore", {
         const res = await axios.get(url);
         const { data } = res.data;
         this.profile = data;
-        showSuccessToast(res.data.message);
+        successToast(res.data.message);
       } catch (err) {
-        showErrorToast(err.response.data.message);
+        errorToast(err.response.data.message);
       } finally {
         loader.hide();
       }
@@ -76,12 +75,13 @@ const userUsersStore = defineStore("userUsersStore", {
       const loader = $loading.show();
       const url = `${VITE_APP_URL}/users/profile`;
       try {
-        const res = await axios.patch(url, { name, gender });
+        const res = await axios.put(url, { name, gender });
         const { data } = res.data;
         this.profile = data;
-        showSuccessToast(res.data.message);
+        router.push({ name: "profile" });
+        successToast(res.data.message);
       } catch (err) {
-        showErrorToast(err.response.data.message);
+        errorToast(err.response.data.message);
       } finally {
         loader.hide();
       }
@@ -95,9 +95,9 @@ const userUsersStore = defineStore("userUsersStore", {
         document.cookie = `myToken=${token}; expires=${new Date(expired)}`;
         axios.defaults.headers.common.Authorization = null;
         const newMessage = `${res.data.message}，請重新登入！`;
-        showSuccessToast(newMessage);
+        successToast(newMessage);
       } catch (err) {
-        showErrorToast(err.response.data.message);
+        errorToast(err.response.data.message);
       } finally {
         loader.hide();
       }
@@ -109,10 +109,10 @@ const userUsersStore = defineStore("userUsersStore", {
         await axios.post(url);
         document.cookie = "myToken=; expires=;";
         axios.defaults.headers.common.Authorization = null;
-        showSuccessToast("登出成功");
+        successToast("登出成功");
         router.push({ name: "sign-in" });
       } catch (err) {
-        showErrorToast(err.response.data.message);
+        errorToast(err.response.data.message);
       } finally {
         loader.hide();
       }
@@ -129,10 +129,10 @@ const userUsersStore = defineStore("userUsersStore", {
       const url = `${VITE_APP_URL}/upload/file`;
       try {
         const res = await axios.post(url, formData);
-        showSuccessToast(res.data.message);
+        successToast(res.data.message);
         this.getProfile();
       } catch (err) {
-        showErrorToast(err.response.data.message);
+        errorToast(err.response.data.message);
       } finally {
         loader.hide();
       }

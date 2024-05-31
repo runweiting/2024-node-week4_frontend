@@ -1,9 +1,10 @@
 <template>
-  <div class="shadow-sign-in">
-    <div class="container mt-24 px-12 py-17 border border-black border-2 bg-light">
+  <div class="container mt-24 px-12 py-17 border border-black border-2 bg-light shadow-sign-in">
       <div class="row">
         <div class="col">
-          <img src="../../../public/signin.svg" alt="sign-in-image" class="object-fit-cover img-fluid" style="height: 340px;">
+          <div class="d-flex align-items-center h-100">
+            <img src="../../../public/signin.svg" alt="sign-in-image" class="object-fit-cover img-fluid" style="height: 340px;">
+          </div>
         </div>
         <VForm v-slot="{ errors }" ref="signIn" @submit="onSubmit" class="col text-center">
           <h1 class="text-primary display-3">MetaWall</h1>
@@ -19,17 +20,16 @@
             <ErrorMessage name="password" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="d-flex gap-2 mb-2">
-            <button type="submit" class="btn btn-primary border border-2 border-black text-white azeret-mono fw-bold w-100" style=" border-bottom: 4px solid black !important;">
-              登入
-            </button>
             <RouterLink :to="{ name: 'sign-up' }" class="btn border border-2 border-black azeret-mono fw-bold w-100 hvr-btn-signin" style=" border-bottom: 4px solid black !important;">
               註冊帳號
             </RouterLink>
+            <button type="submit" class="btn btn-primary border border-2 border-black text-white azeret-mono fw-bold w-100" style=" border-bottom: 4px solid black !important;">
+              登入
+            </button>
           </div>
           <a href="https://two024-node-week4.onrender.com/users/google" class="btn border border-2 border-black azeret-mono fw-bold w-100 hvr-btn-signin-google" style=" border-bottom: 4px solid black !important;">Google 登入</a>
         </VForm>
       </div>
-    </div>
   </div>
 </template>
 
@@ -60,20 +60,7 @@ export default {
 
 <style lang="scss">
 .shadow-sign-in {
-  position: relative;
-  z-index: 10;
-
-  &::after {
-    position: absolute;
-    top: 7px;
-    left: 270px;
-    z-index: -1;
-    display: block;
-    width: 870px;
-    height: 550px;
-    background-color: #00000040;
-    content: ''
-  }
+  box-shadow: -10px 10px #00000040;
 }
 
 .form-label, .form-control, .form-control::placeholder {

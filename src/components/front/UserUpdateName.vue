@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <div class="bg-white rounded border border-2 border-black px-24 py-8" style="border-bottom: 4px solid black !important">
-        <div v-if="!profile" class="rounded-circle overflow-hidden mx-auto mb-4" style="width: 107px; height: 107px;">
+        <div v-if="!profile.photo" class="rounded-circle overflow-hidden mx-auto mb-4" style="width: 107px; height: 107px;">
           <img src="../../../public/user_default.png" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid">
         </div>
         <div v-else class="rounded-circle overflow-hidden mx-auto mb-4" style="width: 107px; height: 107px;">
@@ -42,14 +42,13 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import userUsersStore from '@/stores/front/userUsersStore';
-import showErrorToast from '@/utils/showErrorToast'
+import { errorToast } from "@/utils/swalToasts"
 
 export default {
   data() {
     return {
       tempProfile: {
         name: "",
-        role: "",
         photo: "",
         gender: ""
       }
@@ -78,9 +77,10 @@ export default {
     ...mapActions(userUsersStore, ['getProfile', 'updateProfile', 'uploadFile']),
     handleUpdateProfile(name, gender) {
       if (!name || !gender) {
-        showErrorToast("匿稱和性別為必填")
+        return errorToast("匿稱和性別為必填")
       }; 
       this.updateProfile(name, gender);
+      return null
     }
   }
 }

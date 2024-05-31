@@ -5,7 +5,7 @@
       <div class="col-8">
         <div class="row mb-4">
           <div class="col-4">
-            <select @input="handleGetPosts(timeSort)" v-model="timeSort" class="form-select rounded-0 border-2 border-black py-3 ps-4 pe-10" aria-label="posts-select">
+            <select @input="getPosts(timeSort)" v-model="timeSort" class="form-select rounded-0 border-2 border-black py-3 ps-4 pe-10" aria-label="posts-select">
               <option value="" selected>請選擇順序</option>
               <option value="asc">從新到舊</option>
               <option value="desc">從舊到新</option>
@@ -48,7 +48,36 @@
               </div>
               <p class="noto-sans-tc mb-4">{{ post.content }}
               </p>
-              <img :src="post.image" :alt="`photo-${post.image}`"  class="object-fit-cover img-fluid">
+              <img :src="post.image" :alt="`photo-${post.image}`" class="object-fit-cover img-fluid rounded border border-2 border-black mb-5">
+              <div class="d-flex justify-content-end align-items-end gap-2 mb-5">
+                <button @click="handleLikePost(post._id)" type="button" class="btn p-0">
+                  <i :class="isLike ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up'" class="fs-5 text-primary"></i>
+                </button>
+                <span class="baloo-da-2 fw-bold">{{ post.likes.length }}</span>
+              </div>
+              <div class="d-flex align-items-center gap-2 mb-4">
+                <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
+                  <img :src="profile.photo" :alt="`user-photo-${profile.name}`" class="object-fit-cover img-fluid" style="height: 40px;">
+                </div>
+                <div class="input-group">
+                  <input v-model="comment" type="text" class="form-control rounded-0 border-2 border-black py-2 px-4" placeholder="留言..." aria-label="留言" aria-describedby="留言">
+                  <button @click="handleCreateComment(post._id, comment)" class="btn btn-primary rounded-0 px-4 text-white" type="button" style="width: 25%;">留言</button>
+                </div>
+              </div>
+              <div class="row px-4 gy-4">
+                <div v-for="comment in post.comments" :key="comment._id" class="col-12 rounded p-4" style="background-color: rgb(239 236 231 / 50%);">
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
+                      <img :src="comment.user.photo" :alt="`user-photo-${comment.user.name}`" class="object-fit-cover img-fluid" style="height: 40px;">
+                    </div>
+                    <div class="d-flex flex-column justify-content-between text-start">
+                      <span class="noto-sans-tc text-primary fw-bold">{{ comment.user.name }}</span>
+                      <small class="baloo-da-2 text-gray">{{ formattedTime(comment.createdAt) }}</small>
+                    </div>
+                  </div>
+                  <p class="ms-12 mb-0">{{ comment.comment }}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -65,6 +94,8 @@
 import { mapState, mapActions } from 'pinia';
 import userPostsStore from '@/stores/front/userPostsStore';
 import userUsersStore from '@/stores/front/userUsersStore';
+import userCommentsStore from '@/stores/front/userCommentsStore';
+import userLikesStore from '@/stores/front/userLikesStore';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 import UserDashboard from '@/components/front/UserDashboard.vue';
 
@@ -76,7 +107,9 @@ export default {
   data() {
     return {
       timeSort: '',
-      keyword: ''
+      keyword: '',
+      comment: '',
+      isLike: false,
     }
   },
   mounted() {
@@ -90,11 +123,19 @@ export default {
   methods: {
     ...mapActions(userPostsStore, ['getPosts']),
     ...mapActions(userUsersStore, ['getProfile']),
-    handleGetPosts(timeSort) {
-      this.getPosts(timeSort)
-    },
+    ...mapActions(userCommentsStore, ['createComment']),
+    ...mapActions(userLikesStore, ['likePost', 'unlikePost']),
     handleSearchPosts(keyword) {
       this.getPosts("asc", keyword);
+    },
+    handleLikePost(postId) {
+      this.likePost(postId);
+      this.isLike = !this.isLike;
+      this.getPosts();
+    },
+    handleCreateComment(postId, comment) {
+      this.createComment(postId, comment);
+      this.getPosts();
     },
     formattedTime(createdAt) {
       const date = new Date(createdAt);
@@ -110,3 +151,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.btn-like:hover {
+  color: #03438d;
+}
+</style>

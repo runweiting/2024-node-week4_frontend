@@ -1,8 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 import { useLoading } from "vue-loading-overlay";
-import showErrorToast from "@/utils/showErrorToast";
-import showSuccessToast from "@/utils/showSuccessToast";
+import { errorToast, successToast } from "@/utils/swalToasts";
 
 const $loading = useLoading({});
 const { VITE_APP_URL } = import.meta.env;
@@ -25,7 +24,7 @@ const userPostsStore = defineStore("userPostsStore", {
         const { data } = res.data;
         this.postsList = data;
       } catch (err) {
-        showErrorToast(err.response.data.message);
+        errorToast(err.response.data.message);
       } finally {
         loader.hide();
       }
@@ -39,10 +38,10 @@ const userPostsStore = defineStore("userPostsStore", {
           image,
           tags,
         });
-        showSuccessToast(res.data.message);
+        successToast(res.data.message);
         this.getPosts();
       } catch (err) {
-        showErrorToast(err.response.data.message);
+        errorToast(err.response.data.message);
       } finally {
         loader.hide();
       }

@@ -17,7 +17,7 @@
 <script>
 import { mapActions } from 'pinia';
 import userUsersStore from '@/stores/front/userUsersStore';
-import showErrorToast from '@/utils/showErrorToast';
+import { errorToast } from "@/utils/swalToasts"
 
 export default {
   data() {
@@ -30,15 +30,16 @@ export default {
     ...mapActions(userUsersStore, ['updatePassword']),
     handleUpdatePassword(password, confirmPassword) {
       if (!password || !confirmPassword) {
-        showErrorToast("密碼為必填")
-      } else if (password !== confirmPassword) {
-        showErrorToast("密碼不一致")
-        return
+        return errorToast("密碼為必填")
+      }
+      if (password !== confirmPassword) {
+        return errorToast("密碼不一致")
       }
       this.updatePassword(password, confirmPassword);
       this.password = '';
       this.confirmPassword = '';
-      this.$router.push({ name: "sign-in" })
+      this.$router.push({ name: "sign-in" });
+      return null
     }
   }
 }

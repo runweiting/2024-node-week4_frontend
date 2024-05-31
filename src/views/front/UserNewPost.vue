@@ -48,7 +48,7 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import userPostsStore from '@/stores/front/userPostsStore';
-import showErrorToast from '@/utils/showErrorToast';
+import { errorToast } from "@/utils/swalToasts";
 import UserNavbar from '@/components/front/UserNavbar.vue';
 import UserDashboard from '@/components/front/UserDashboard.vue';
 
@@ -79,22 +79,20 @@ export default {
     ...mapActions(userPostsStore, ['createPost', 'getPosts']),
     handleCreatePost(content, image, tags) {
       if (!content) {
-        showErrorToast("貼文內容為必填")
-        return
+        return errorToast("貼文內容為必填")
       }
       if (!image.startsWith('http')) {
-        showErrorToast("圖片網址錯誤")
-        return
+        return errorToast("圖片網址錯誤")
       }
       if (tags.length === 0) {
-        showErrorToast("貼文標籤為必填")
-        return
+        return errorToast("貼文標籤為必填")
       }
       this.createPost(content, image, tags);
       this.tempContent = '';
       this.tempImage = '';
       this.tags.length = 0;
-      this.$router.push({ name: "metawall" })
+      this.$router.push({ name: "metawall" });
+      return null
     }
   }
 }
