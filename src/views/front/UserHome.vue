@@ -35,9 +35,10 @@
         </div>
         <!-- 全體動態牆-有動態 -->
         <div v-if="postsList.length" class="row gy-6">
-          <div v-for="post in postsList" :key="post._id" class="col-12">
+          <div v-for="post in postsList" :key="post.id" class="col-12">
             <div class="bg-white rounded border border-2 border-black p-6" style="border-bottom: 4px solid black !important">
-              <div class="d-flex gap-2 mb-4">
+              <!-- Vue 的條件渲染機制：通過在模板中使用 v-if 和 v-for 等指令來進行渲染，防止在數據未加載完成時嘗試訪問未定義的屬性而導致的錯誤 -->
+              <div v-if="post.user" class="d-flex gap-2 mb-4">
                 <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
                   <img :src="post.user.photo" :alt="`user-photo-${post.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
                 </div>
@@ -49,14 +50,25 @@
               <p class="noto-sans-tc mb-4">{{ post.content }}
               </p>
               <img :src="post.image" :alt="`photo-${post.image}`" class="object-fit-cover img-fluid rounded border border-2 border-black mb-5">
-              <div class="d-flex justify-content-end align-items-end gap-2 mb-5">
-                <button @click="handleLikePost(post._id)" type="button" class="btn p-0">
-                  <i :class="isLike ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up'" class="fs-5 text-primary"></i>
-                </button>
-                <span class="baloo-da-2 fw-bold">{{ post.likes.length }}</span>
+              <div class="d-flex align-items-center mb-5">
+                <div v-if="post.likes.length" class="d-flex align-items-center gap-2">
+                  <div class="rounded-circle overflow-hidden bg-primary position-relative" style="width: 24px; height: 24px;">
+                    <i class="bi bi-hand-thumbs-up-fill text-white position-absolute top-50 start-50 translate-middle"></i>
+                  </div>
+                  <small class="noto-sans-tc">{{ post.likes[0].name }}和其他{{ post.likes.length - 1 }}人按讚</small>
+                </div>
+                <!-- <small class="noto-sans-tc ms-auto">{{ post.comments.length }}則留言</small> -->
+                <div class="ms-auto">
+                  <div class="d-flex align-items-center gap-2">
+                    <button @click="handleLikePost(post._id)" type="button" class="btn p-0">
+                      <i :class="isLiked(post) ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up'" class="fs-5 text-primary"></i>
+                    </button>
+                    <span class="baloo-da-2 fw-bold">{{ post.likes.length }}</span>
+                  </div>
+                </div>
               </div>
               <div class="d-flex align-items-center gap-2 mb-4">
-                <div class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
+                <div v-if="profile._id" class="rounded-circle overflow-hidden" style="width: 40px; height: 40px;">
                   <img :src="profile.photo" :alt="`user-photo-${profile.name}`" class="object-fit-cover img-fluid" style="height: 40px;">
                 </div>
                 <div class="input-group">
@@ -98,6 +110,7 @@ import userCommentsStore from '@/stores/front/userCommentsStore';
 import userLikesStore from '@/stores/front/userLikesStore';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 import UserDashboard from '@/components/front/UserDashboard.vue';
+import { errorToast } from '@/utils/swalToasts';
 
 export default {
   components: {
@@ -109,16 +122,22 @@ export default {
       timeSort: '',
       keyword: '',
       comment: '',
-      isLike: false,
     }
   },
+  // watch: {
+  //   postsList: {
+  //     handler(newPostsList) {
+  //       this.getPosts(newPostsList);
+  //     },
+  //   }
+  // },
   mounted() {
     this.getPosts();
     this.getProfile();
   },
   computed: {
     ...mapState(userPostsStore, ['postsList']),
-    ...mapState(userUsersStore, ['profile'])
+    ...mapState(userUsersStore, ['profile']),
   },
   methods: {
     ...mapActions(userPostsStore, ['getPosts']),
@@ -128,10 +147,30 @@ export default {
     handleSearchPosts(keyword) {
       this.getPosts("asc", keyword);
     },
-    handleLikePost(postId) {
-      this.likePost(postId);
-      this.isLike = !this.isLike;
-      this.getPosts();
+    async handleLikePost(postId) {
+      // 帶入當前貼文 postId 核對 postsList 中 id 相同的 targetPost
+      // eslint-disable-next-line no-underscore-dangle
+      const targetPost = this.postsList.find(post => post._id === postId);
+      // 如果 targetPost.likes 已有 profile.id
+      try {
+        if (this.isLiked(targetPost)) {
+          // 取消按讚 
+          await this.unlikePost(postId)
+          
+        } else {
+          // 按讚
+          await this.likePost(postId);
+        };
+        await this.getPosts();
+      } catch (err) {
+        console.log(err)
+        errorToast(err)
+      }
+    },
+    isLiked(post) {
+      // 核對 post.likes 是否有 profile._id
+      // eslint-disable-next-line no-underscore-dangle
+      return post.likes.some(member => member._id === this.profile._id)
     },
     handleCreateComment(postId, comment) {
       this.createComment(postId, comment);

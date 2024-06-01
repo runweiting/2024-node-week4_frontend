@@ -4,7 +4,7 @@ import { useLoading } from "vue-loading-overlay";
 import { errorToast, successToast } from "@/utils/swalToasts";
 
 const $loading = useLoading({});
-const { VITE_APP_URL } = import.meta.env;
+const { VITE_LOCALHOST } = import.meta.env;
 const userPostsStore = defineStore("userPostsStore", {
   state: () => ({
     postsList: [],
@@ -12,7 +12,7 @@ const userPostsStore = defineStore("userPostsStore", {
   actions: {
     async getPosts(timeSort = null, keyword = null) {
       const loader = $loading.show();
-      let url = `${VITE_APP_URL}/posts`;
+      let url = `${VITE_LOCALHOST}/posts`;
       if (timeSort !== null) {
         url += `?timeSort=${timeSort}`;
         if (keyword) {
@@ -31,7 +31,7 @@ const userPostsStore = defineStore("userPostsStore", {
     },
     async createPost(content, image, tags) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/posts`;
+      const url = `${VITE_LOCALHOST}/posts`;
       try {
         const res = await axios.post(url, {
           content,
