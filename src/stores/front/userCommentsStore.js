@@ -22,6 +22,18 @@ const userCommentsStore = defineStore("userCommentsStore", {
         loader.hide();
       }
     },
+    async deleteComment(commentId) {
+      const loader = $loading.show();
+      const url = `${VITE_LOCALHOST}/posts/${commentId}/uncomment`;
+      try {
+        const res = await axios.delete(url);
+        successToast(res.data.message);
+      } catch (err) {
+        errorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
   },
 });
 
