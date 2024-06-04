@@ -1,0 +1,1 @@
+function f(e){const n=new Date,t=new Date(e),a=n.getTime()-t.getTime(),r=Math.floor(a/(24*3600*1e3)),o=t.getFullYear(),s=String(t.getMonth()+1).padStart(2,"0"),c=String(t.getDate()).padStart(2,"0"),i=String(t.getHours()).padStart(2,"0"),g=String(t.getMinutes()).padStart(2,"0"),d=`${o}/${s}/${c} ${i}:${g}`;return{followedDays:r,formattedDateAndTime:d}}export{f};
