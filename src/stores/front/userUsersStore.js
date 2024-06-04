@@ -10,6 +10,8 @@ const { VITE_LOCALHOST } = import.meta.env;
 const userUsersStore = defineStore("userUsersStore", {
   state: () => ({
     profile: {},
+    followingList: [],
+    likedPosts: [],
   }),
   actions: {
     async signUp(name, email, password, confirmPassword) {
@@ -57,6 +59,21 @@ const userUsersStore = defineStore("userUsersStore", {
         router.push({ name: "metawall" });
       }
     },
+    async signOut() {
+      const loader = $loading.show();
+      const url = `${VITE_LOCALHOST}/users/sign-out`;
+      try {
+        await axios.post(url);
+        document.cookie = "myToken=; expires=;";
+        axios.defaults.headers.common.Authorization = null;
+        successToast("登出成功");
+        router.push({ name: "sign-in" });
+      } catch (err) {
+        errorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
     async getProfile() {
       const loader = $loading.show();
       const url = `${VITE_LOCALHOST}/users/profile`;
@@ -67,7 +84,6 @@ const userUsersStore = defineStore("userUsersStore", {
         successToast(res.data.message);
       } catch (err) {
         errorToast(err.response.data.message);
-        console.log(err);
       } finally {
         loader.hide();
       }
@@ -103,21 +119,6 @@ const userUsersStore = defineStore("userUsersStore", {
         loader.hide();
       }
     },
-    async signOut() {
-      const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/sign-out`;
-      try {
-        await axios.post(url);
-        document.cookie = "myToken=; expires=;";
-        axios.defaults.headers.common.Authorization = null;
-        successToast("登出成功");
-        router.push({ name: "sign-in" });
-      } catch (err) {
-        errorToast(err.response.data.message);
-      } finally {
-        loader.hide();
-      }
-    },
     async uploadFile() {
       const loader = $loading.show();
       const fileInput = document.querySelector("#formFile");
@@ -138,6 +139,49 @@ const userUsersStore = defineStore("userUsersStore", {
         loader.hide();
       }
     },
+    async getFollowingList() {
+      const loader = $loading.show();
+      const url = `${VITE_LOCALHOST}/users/following`;
+      try {
+        const res = await axios.get(url);
+        const { data } = res.data;
+        this.followingList = data;
+        successToast(res.data.message);
+      } catch (err) {
+        errorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
+    async getLikedPosts() {
+      const loader = $loading.show();
+      const url = `${VITE_LOCALHOST}/users/liked-posts`;
+      try {
+        const res = await axios.get(url);
+        const { data } = res.data;
+        this.likedPosts = data;
+      } catch (err) {
+        errorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
+    async deleteLikedPost(postId) {
+      const loader = $loading.show();
+      const url = `${VITE_LOCALHOST}/users/${postId}/liked-post`;
+      try {
+        const res = await axios.delete(url);
+        successToast(res.data.message);
+      } catch (err) {
+        errorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
+  },
+  getters: {
+    getUserProfile: (state) => state.profile,
+    getUserLikedPosts: (state) => state.likedPosts,
   },
 });
 
