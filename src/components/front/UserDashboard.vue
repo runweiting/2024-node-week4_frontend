@@ -4,7 +4,7 @@
       :to="{ name: 'new-post' }" class="btn btn-primary border border-2 border-black text-white azeret-mono fw-bold w-100 mb-6">張貼動態
     </RouterLink>
     <div class="d-flex flex-column gap-6">
-      <RouterLink v-if="profile._id" :to="{ name: 'user', params: { id: profile._id} }" type="button" class="btn p-0 text-black text-decoration-none">
+      <RouterLink v-if="profile._id" :to="{ name: 'user', params: { id: profile._id} }" class="text-black text-decoration-none">
         <div class="d-flex align-items-center gap-4">
           <div v-if="profile.photo" class="rounded-circle overflow-hidden" style="width: 50px; height: 50px;">
             <img :src="profile.photo" alt="customer-feedback-avatar-man" class="object-fit-cover img-fluid" style="height: 50px;">
