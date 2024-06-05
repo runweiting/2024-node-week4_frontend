@@ -4,7 +4,7 @@ import { useLoading } from "vue-loading-overlay";
 import { errorToast, successToast } from "@/utils/swalToasts";
 
 const $loading = useLoading({});
-const { VITE_LOCALHOST } = import.meta.env;
+const { VITE_APP_URL } = import.meta.env;
 const userFollowersStore = defineStore("userFollowersStore", {
   state: () => ({
     followingList: [],
@@ -13,7 +13,7 @@ const userFollowersStore = defineStore("userFollowersStore", {
   actions: {
     async getFollowingList() {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/following`;
+      const url = `${VITE_APP_URL}/users/following`;
       try {
         const res = await axios.get(url);
         const { data } = res.data;
@@ -39,7 +39,7 @@ const userFollowersStore = defineStore("userFollowersStore", {
     },
     async followUser(followId) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/${followId}/follow`;
+      const url = `${VITE_APP_URL}/users/${followId}/follow`;
       try {
         const res = await axios.post(url);
         successToast(res.data.message);
@@ -51,7 +51,7 @@ const userFollowersStore = defineStore("userFollowersStore", {
     },
     async unfollowUser(followId) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/${followId}/unfollow`;
+      const url = `${VITE_APP_URL}/users/${followId}/unfollow`;
       try {
         const res = await axios.delete(url);
         this.getFollowingList();
