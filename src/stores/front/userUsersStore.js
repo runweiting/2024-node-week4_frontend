@@ -10,7 +10,6 @@ const { VITE_LOCALHOST } = import.meta.env;
 const userUsersStore = defineStore("userUsersStore", {
   state: () => ({
     profile: {},
-    followingList: [],
     likedPosts: [],
   }),
   actions: {
@@ -133,20 +132,6 @@ const userUsersStore = defineStore("userUsersStore", {
         const res = await axios.post(url, formData);
         successToast(res.data.message);
         this.getProfile();
-      } catch (err) {
-        errorToast(err.response.data.message);
-      } finally {
-        loader.hide();
-      }
-    },
-    async getFollowingList() {
-      const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/users/following`;
-      try {
-        const res = await axios.get(url);
-        const { data } = res.data;
-        this.followingList = data;
-        successToast(res.data.message);
       } catch (err) {
         errorToast(err.response.data.message);
       } finally {

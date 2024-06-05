@@ -110,7 +110,7 @@ const baseRoutes = [
         name: "following-list",
         component: () => import("@/components/front/UserFollowingList.vue"),
         meta: {
-          title: "追蹤名單",
+          title: "我的追蹤名單",
         },
       },
       {
@@ -118,15 +118,33 @@ const baseRoutes = [
         name: "liked-posts",
         component: () => import("@/components/front/UserLikedPosts.vue"),
         meta: {
-          title: "我按讚的貼文",
+          title: "我的按讚貼文",
         },
         children: [
           {
             path: "post/:id",
-            name: "post",
+            name: "liked-post",
             component: () => import("@/components/front/UserLikedPost.vue"),
             meta: {
               title: "指定按讚貼文",
+            },
+          },
+        ],
+      },
+      {
+        path: "edit-posts/:userId",
+        name: "edit-posts",
+        component: () => import("@/components/front/UserEditPosts.vue"),
+        meta: {
+          title: "編輯貼文",
+        },
+        children: [
+          {
+            path: ":postId",
+            name: "edit-post",
+            component: () => import("@/components/front/UserEditPost.vue"),
+            meta: {
+              title: "指定編輯貼文",
             },
           },
         ],

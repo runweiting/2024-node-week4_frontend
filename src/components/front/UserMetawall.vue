@@ -93,7 +93,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <p class="ms-12 mb-1" style="width: 85%">{{ comment.comment }}</p>
                 <div class="mt-auto">
-                  <button @click="handleDeleteComment(comment._id)" type="button" class="btn p-0"><i class="bi bi-trash3 text-primary"></i></button>
+                  <button @click="handleDeleteComment(comment._id, comment.user._id, profile._id)" type="button" class="btn p-0"><i class="bi bi-trash3 text-primary"></i></button>
                 </div>
               </div>
             </div>
@@ -110,6 +110,7 @@ import postsStore from '@/stores/front/postsStore';
 import userUsersStore from '@/stores/front/userUsersStore';
 import userCommentsStore from '@/stores/front/userCommentsStore';
 import userLikesStore from '@/stores/front/userLikesStore';
+import { warningToast } from '@/utils/swalToasts';
 import formatCreatedAt from '@/utils/formatCreatedAt';
 
 export default {
@@ -142,8 +143,12 @@ export default {
       this.resetTextareaHeight();
       this.getPosts();
     },
-    handleDeleteComment(commentId) {
-      this.deleteComment(commentId).then(() => this.getPosts())
+    handleDeleteComment(commentId, commentUserId, profileId) {
+      if (commentUserId !== profileId) {
+        warningToast('無法刪除他人留言')
+      } else {
+        this.deleteComment(commentId).then(() => this.getPosts())
+      }
     },
     adjustTextareaHeight(event) {
       const textarea = event.target;

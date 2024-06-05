@@ -18,9 +18,10 @@
             :to="{ name: 'member' }" class="nav-link fs-6 azeret-mono fw-bold dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Member
           </RouterLink>
           <ul class="dropdown-menu noto-sans-tc mt-2 py-0 text-center rounded-0" aria-labelledby="dropdownMenuLink">
-            <li><a class="dropdown-item py-2" href="#">我的貼文牆</a></li>
             <li>
-              <RouterLink :to="{ name: 'member' }" class="dropdown-item py-2">修改個人資料</RouterLink>
+              <RouterLink v-if="profile._id" :to="{ name: 'user', params: { id: profile._id } }" class="dropdown-item py-2" href="#">我的貼文牆</RouterLink></li>
+            <li>
+              <RouterLink :to="{ name: 'profile' }" class="dropdown-item py-2">修改個人資料</RouterLink>
             </li>
             <li><a @click="signOut" class="dropdown-item py-2" href="#">登出</a></li>
           </ul>
@@ -31,11 +32,11 @@
 </template>
 
 <script>
-import userUsersStore from '@/stores/front/userUsersStore';
 import { mapState, mapActions } from 'pinia';
+import userUsersStore from '@/stores/front/userUsersStore';
 
 export default {
-  mounted() {
+  created() {
     this.getProfile();
   },
   computed: {

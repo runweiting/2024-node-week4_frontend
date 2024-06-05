@@ -18,7 +18,8 @@
               <span class="noto-sans-tc text-primary fw-bold">{{ userPosts.targetUser.name }}</span>
               <span class="baloo-da-2">{{ userPosts.targetUser.followers.length }} 人追蹤</span>
             </div>
-            <button type="button" class="btn btn-warning rounded border border-2 border-black w-25 noto-sans-tc fw-bold" style="border-bottom: 4px solid black !important">追蹤</button>
+            <button v-if="toggleFollow" @click="handleFollowUser(userPosts.targetUser._id)" type="button" class="btn btn-warning rounded border border-2 border-black w-25 noto-sans-tc fw-bold" style="border-bottom: 4px solid black !important">追蹤</button>
+            <button v-else @click="handleUnfollowUser(userPosts.targetUser._id)" type="button" class="btn btn-light rounded border border-2 border-black w-25 noto-sans-tc fw-bold" style="border-bottom: 4px solid black !important">取消追蹤</button>
           </div>
         </div>
       </div>
@@ -58,7 +59,7 @@
       <div v-for="post in userPosts.posts" :key="post.id" class="col-12">
         <div class="bg-white rounded border border-2 border-black p-6" style="border-bottom: 4px solid black !important">
           <!-- Vue 的條件渲染機制：通過在模板中使用 v-if 和 v-for 等指令來進行渲染，防止在數據未加載完成時嘗試訪問未定義的屬性而導致的錯誤 -->
-          <div v-if="post.user._id" class="d-flex gap-2 mb-4">
+          <RouterLink v-if="post.user._id" :to="{ name: 'user', params: { id: post.user._id } }" class="d-flex gap-2 mb-4 text-black text-decoration-none">
             <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
               <img :src="post.user.photo" :alt="`user-photo-${post.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
             </div>
@@ -66,7 +67,7 @@
               <span class="noto-sans-tc text-primary fw-bold">{{ post.user.name }}</span>
               <small class="baloo-da-2 text-gray">{{ formatCreatedAt(post.createdAt).formattedDateAndTime }}</small>
             </div>
-          </div>
+          </RouterLink>
           <p class="noto-sans-tc mb-4">{{ post.content }}
           </p>
           <img :src="post.image" :alt="`photo-${post.image}`" class="object-fit-cover img-fluid rounded border border-2 border-black mb-2">
@@ -74,7 +75,7 @@
             <span v-for="(tag, index) in post.tags" :key="index" class="badge rounded-pill bg-secondary text-black noto-sans-tc border border-2 border-black">{{ tag }}</span>
           </div>
           <div class="d-flex align-items-center mb-5">
-            <div v-if="post.likes" class="d-flex align-items-center gap-2">
+            <div v-if="post.likes.length" class="d-flex align-items-center gap-2">
               <div class="rounded-circle overflow-hidden bg-primary position-relative" style="width: 24px; height: 24px;">
                 <i class="bi bi-hand-thumbs-up-fill text-white position-absolute top-50 start-50 translate-middle"></i>
               </div>
@@ -116,7 +117,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <p class="ms-12 mb-1" style="width: 85%">{{ comment.comment }}</p>
                 <div class="mt-auto">
-                  <button @click="handleDeleteComment(comment._id)" type="button" class="btn p-0"><i class="bi bi-trash3 text-primary"></i></button>
+                  <button @click="handleDeleteComment(comment._id, comment.user._id, profile._id)" type="button" class="btn p-0"><i class="bi bi-trash3 text-primary"></i></button>
                 </div>
               </div>
             </div>
@@ -133,6 +134,8 @@ import postsStore from '@/stores/front/postsStore';
 import userUsersStore from '@/stores/front/userUsersStore';
 import userCommentsStore from '@/stores/front/userCommentsStore';
 import userLikesStore from '@/stores/front/userLikesStore';
+import userFollowersStore from '@/stores/front/userFollowersStore';
+import { warningToast } from '@/utils/swalToasts';
 import formatCreatedAt from '@/utils/formatCreatedAt';
 
 export default {
@@ -150,16 +153,29 @@ export default {
   async mounted() {
     await this.getUserPosts(this.targetUserId);
     await this.getProfile();
+    await this.getFollowingList();
+    this.isFollowed(this.followingList, this.targetUserId);
   },
   computed: {
     ...mapState(postsStore, ['userPosts']),
     ...mapState(userUsersStore, ['profile']),
+    ...mapState(userFollowersStore, ['followingList']),
+    ...mapState(userFollowersStore, ['toggleFollow']),
   },
   methods: {
     ...mapActions(postsStore, ['getUserPosts']),
     ...mapActions(userUsersStore, ['getProfile']),
     ...mapActions(userCommentsStore, ['createComment', 'deleteComment']),
     ...mapActions(userLikesStore, ['handleLikePost', 'isLiked', 'likePost', 'unlikePost']),
+    ...mapActions(userFollowersStore, ['getFollowingList', 'isFollowed', 'followUser', 'unfollowUser']),
+    async handleFollowUser(followId) {
+      await this.followUser(followId);
+      this.$router.push({ name: 'following-list' });
+    },
+    async handleUnfollowUser(followId) {
+      await this.unfollowUser(followId);
+      this.$router.push({ name: 'following-list' });
+    },
     handleSearchPosts(keyword) {
       this.getUserPosts(this.targetUserId, "asc", keyword);
     },
@@ -169,8 +185,12 @@ export default {
       this.resetTextareaHeight();
       this.getUserPosts(this.targetUserId);
     },
-    handleDeleteComment(commentId) {
-      this.deleteComment(commentId).then(() => this.getUserPosts(this.targetUserId))
+    handleDeleteComment(commentId, commentUserId, profileId) {
+      if (commentUserId !== profileId) {
+        warningToast('無法刪除他人留言')
+      } else {
+        this.deleteComment(commentId).then(() => this.getUserPosts(this.targetUserId))
+      }
     },
     adjustTextareaHeight(event) {
       const textarea = event.target;

@@ -21,7 +21,6 @@
                 <span>圖片網址</span>
                 <input v-model="image" type="text" class="form-control rounded-0 border border-black border-2" placeholder="請輸入網址" aria-label="imageUrl" aria-describedby="imageUrl">
               </div>
-              <!-- <button type="button" class="btn bg-black text-white mb-4" style="width: 128px;">上傳圖片</button> -->
               <div class="mb-4">
                 <img :src="image" alt="tempImage" class="object-fit-cover img-fluid">
               </div>
@@ -91,7 +90,7 @@ export default {
       this.tempContent = '';
       this.tempImage = '';
       this.tags.length = 0;
-      this.$router.push({ name: "metawall" });
+      this.$router.push({ name: "all" });
       return null
     }
   }

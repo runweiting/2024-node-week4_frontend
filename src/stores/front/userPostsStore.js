@@ -27,6 +27,36 @@ const userPostsStore = defineStore("userPostsStore", {
         loader.hide();
       }
     },
+    async updatePost(content, image, tags, postId) {
+      const loader = $loading.show();
+      const url = `${VITE_LOCALHOST}/posts/${postId}`;
+      try {
+        const res = await axios.put(url, {
+          content,
+          image,
+          tags,
+        });
+        successToast(res.data.message);
+        const store = postsStore();
+        await store.getPosts();
+      } catch (err) {
+        errorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
+    async deletePost(postId) {
+      const loader = $loading.show();
+      const url = `${VITE_LOCALHOST}/posts/${postId}`;
+      try {
+        const res = await axios.delete(url);
+        successToast(res.data.message);
+      } catch (err) {
+        errorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
   },
 });
 

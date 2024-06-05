@@ -2,19 +2,19 @@
   <div v-if="targetPost._id" class="row gy-4">
     <div class="col-12">
       <div class="bg-white rounded border border-2 border-black p-6" style="border-bottom: 4px solid black !important">
-        <div class="d-flex gap-2 mb-4">
-          <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
-            <img :src="targetPost.user.photo" :alt="`user-photo-${targetPost.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
-          </div>
-          <div class="d-flex flex-column justify-content-between text-start">
-            <span class="noto-sans-tc text-primary fw-bold">{{ targetPost.user.name }}</span>
-            <small class="baloo-da-2 text-gray">{{ formatCreatedAt(targetPost.createdAt).formattedDateAndTime }}</small>
-          </div>
-          <div class="ms-auto">
-            <button @click="closeLikedPost" type="button" class="btn p-0">
-              <i class="bi bi-x-circle-fill"></i>
-            </button>
-          </div>
+        <div class="d-flex justify-content-between mb-4">
+          <RouterLink v-if="targetPost.user._id" :to="{ name: 'user', params: { id: targetPost.user._id } }" class="d-flex gap-2 text-black text-decoration-none">
+            <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
+              <img :src="targetPost.user.photo" :alt="`user-photo-${targetPost.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
+            </div>
+            <div class="d-flex flex-column justify-content-between text-start">
+              <span class="noto-sans-tc text-primary fw-bold">{{ targetPost.user.name }}</span>
+              <small class="baloo-da-2 text-gray">{{ formatCreatedAt(targetPost.createdAt).formattedDateAndTime }}</small>
+            </div>
+          </RouterLink>
+          <button @click="closeLikedPost" type="button" class="btn p-0 mb-auto">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
         </div>
         <p class="noto-sans-tc mb-4">{{ targetPost.content }}
         </p>
