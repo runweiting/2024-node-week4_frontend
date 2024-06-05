@@ -28,16 +28,25 @@ const baseRoutes = [
   {
     path: "/metawall",
     name: "metawall",
+    redirect: "metawall/all",
     component: () => import("@/views/front/UserHome.vue"),
     meta: {
-      title: "全體動態牆",
+      title: "動態牆",
       requiresAuth: true,
     },
     children: [
       {
-        path: "user",
+        path: "all",
+        name: "all",
+        component: () => import("@/components/front/UserMetawall.vue"),
+        meta: {
+          title: "動態牆",
+        },
+      },
+      {
+        path: "user/:id",
         name: "user",
-        component: () => import("@/views/front/UserWall.vue"),
+        component: () => import("@/components/front/UserUserWall.vue"),
         meta: {
           title: "個人牆",
         },

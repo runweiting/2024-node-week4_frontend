@@ -1,6 +1,6 @@
 <template>
   <UserNavbar />
-  <div class="container py-12" style="height: 100dvh;">
+  <div class="container py-12">
     <div class="row">
       <div class="col-8">
         <div class="row">
@@ -21,7 +21,7 @@
                 <small class="baloo-da-2 text-gray">追蹤時間：{{ formatCreatedAt(member.createdAt).formattedDateAndTime }}</small>
               </div>
               <div class="mt-auto ms-auto">
-                <small class="baloo-da-2">您已追蹤{{ formatCreatedAt(member.createdAt).followedDays }}天</small>
+                <small class="baloo-da-2">您已追蹤 {{ formatCreatedAt(member.createdAt).followedDays }} 天</small>
               </div>
             </div>
           </div>
@@ -61,24 +61,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.shadow-new-post {
-  position: relative;
-  z-index: 10;
-
-  &::after {
-    position: absolute;
-    top: 6px;
-    right: 20px;
-    z-index: -1;
-    display: block;
-    width: 556px;
-    height: 74px;
-    background-color: white;
-    border: 2px solid black;
-    content: ''
-  }
-}
-
-</style>

@@ -97,24 +97,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.shadow-new-post {
-  position: relative;
-  z-index: 10;
-
-  &::after {
-    position: absolute;
-    top: 6px;
-    right: 20px;
-    z-index: -1;
-    display: block;
-    width: 556px;
-    height: 74px;
-    background-color: white;
-    border: 2px solid black;
-    content: ''
-  }
-}
-
-</style>

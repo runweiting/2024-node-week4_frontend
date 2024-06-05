@@ -1,6 +1,6 @@
 <template>
   <UserNavbar />
-  <div class="container py-12" style="height: 100dvh;">
+  <div class="container py-12">
     <div class="row">
       <div class="col-8">
         <div class="row">
@@ -82,32 +82,10 @@ export default {
     },
     handleGoToPost(currentPostId) {
       this.currentPostId = currentPostId;
-      // eslint-disable-next-line no-underscore-dangle
-      this.$router.push({ name: 'liked-post', params: { id: currentPostId } })
+      this.$router.push({ name: 'post', params: { id: currentPostId } })
     },
     formatCreatedAt,
     timestampToDate,
   }
 }
 </script>
-
-<style lang="scss">
-.shadow-new-post {
-  position: relative;
-  z-index: 10;
-
-  &::after {
-    position: absolute;
-    top: 6px;
-    right: 20px;
-    z-index: -1;
-    display: block;
-    width: 556px;
-    height: 74px;
-    background-color: white;
-    border: 2px solid black;
-    content: ''
-  }
-}
-
-</style>

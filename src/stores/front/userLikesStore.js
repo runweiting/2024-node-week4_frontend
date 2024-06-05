@@ -9,25 +9,41 @@ const { VITE_LOCALHOST } = import.meta.env;
 const userLikesStore = defineStore("userLikesStore", {
   state: () => ({}),
   actions: {
-    async handleLikePost(postId, profileId) {
+    async handleLikePost(page, postId, profileId, targetUserId) {
       // 帶入當前貼文 postId 核對 postsList 中 id 相同的 targetPost
       const store = postsStore();
+      await store.getPosts();
       const postsList = store.getAllPosts;
       // eslint-disable-next-line no-underscore-dangle
       const targetPost = await postsList.find((post) => post._id === postId);
       // 如果 targetPost.likes 已有 profile.id
-      console.log("targetPost", targetPost);
-      try {
-        if (this.isLiked(targetPost, profileId)) {
-          // 取消按讚
-          await this.unlikePost(postId);
-        } else {
-          // 按讚
-          await this.likePost(postId);
+      if (page === "metawall") {
+        try {
+          if (this.isLiked(targetPost, profileId)) {
+            // 取消按讚
+            await this.unlikePost(postId);
+          } else {
+            // 按讚
+            await this.likePost(postId);
+          }
+          await store.getPosts();
+        } catch (err) {
+          errorToast(err.response);
         }
-        await store.getPosts();
-      } catch (err) {
-        errorToast(err.response);
+      }
+      if (page === "userwall") {
+        try {
+          if (this.isLiked(targetPost, profileId)) {
+            // 取消按讚
+            await this.unlikePost(postId);
+          } else {
+            // 按讚
+            await this.likePost(postId);
+          }
+          await store.getUserPosts(targetUserId);
+        } catch (err) {
+          errorToast(err.response);
+        }
       }
     },
     isLiked(post, profileId) {

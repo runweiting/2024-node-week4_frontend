@@ -4,7 +4,7 @@
       <div class="container py-3">
         <h1 class="mb-0 overflow-hidden d-flex align-items-center" style="white-space: nowrap;">
           <RouterLink 
-            :to="{ name: 'metawall' }" class="navbar-brand m-0 fs-3 p-0">MetaWall
+            :to="{ name: 'all' }" class="navbar-brand m-0 fs-3 p-0">MetaWall
           </RouterLink>
         </h1>
         <div class="dropdown d-flex align-items-center gap-2">

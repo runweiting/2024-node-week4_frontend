@@ -9,6 +9,7 @@ const postsStore = defineStore("postsStore", {
   state: () => ({
     postsList: [],
     targetPost: {},
+    userPosts: [],
   }),
   actions: {
     async getPosts(timeSort = null, keyword = null) {
@@ -37,6 +38,25 @@ const postsStore = defineStore("postsStore", {
         const res = await axios.get(url);
         const { data } = res.data;
         this.targetPost = data;
+      } catch (err) {
+        errorToast(err.response.data.message);
+      } finally {
+        loader.hide();
+      }
+    },
+    async getUserPosts(userId, timeSort = null, keyword = null) {
+      const loader = $loading.show();
+      let url = `${VITE_LOCALHOST}/posts/user/${userId}`;
+      if (timeSort !== null) {
+        url += `?timeSort=${timeSort}`;
+        if (keyword) {
+          url += `&q=${keyword}`;
+        }
+      }
+      try {
+        const res = await axios.get(url);
+        const { data } = res.data;
+        this.userPosts = data;
       } catch (err) {
         errorToast(err.response.data.message);
       } finally {
