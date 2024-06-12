@@ -18,7 +18,7 @@
           </div>
         </div>
         <div v-else class="row gy-3">
-          <div v-for="post in userPosts.posts" :key="post._id" class="col-12">
+          <div v-for="post in userPosts.posts" :key="post.id" class="col-12">
             <div class="d-flex gap-2 bg-white rounded border border-2 border-black p-4 mb-2" style="border-bottom: 4px solid black !important">
               <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
                 <img :src="post.user.photo" :alt="`user-photo-${post.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
@@ -28,17 +28,17 @@
                 <small class="baloo-da-2 text-gray">發文時間：{{ formatCreatedAt(post.createdAt).formattedDateAndTime }}</small>
               </div>
               <div class="mt-auto ms-auto">
-                <button @click="handleEditPost(post._id)" type="button" class="btn btn-sm border border-2 border-black bg-white me-2">
+                <button @click="handleEditPost(post.id)" type="button" class="btn btn-sm border border-2 border-black bg-white me-2">
                   <i class="bi bi-pencil-fill me-2"></i>
                   <small>編輯貼文</small>
                 </button>
-                <button @click="handleDeletePost(post._id)" type="button" class="btn btn-sm border border-2 border-black text-decoration-none bg-white">
+                <button @click="handleDeletePost(post.id)" type="button" class="btn btn-sm border border-2 border-black text-decoration-none bg-white">
                   <i class="bi bi-trash3 me-2"></i>
                   <small>刪除貼文</small>
                 </button>
               </div>
             </div>
-            <RouterView v-if="currentPostId === post._id" />
+            <RouterView v-if="currentPostId === post.id" />
           </div>
         </div>
       </div>

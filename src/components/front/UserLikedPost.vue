@@ -1,5 +1,5 @@
 <template>
-  <div v-if="targetPost._id" class="row gy-4">
+  <div v-if="targetPost.id" class="row gy-4">
     <div class="col-12">
       <div class="bg-white rounded border border-2 border-black p-6" style="border-bottom: 4px solid black !important">
         <div class="d-flex justify-content-between mb-4">

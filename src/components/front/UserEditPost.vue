@@ -1,5 +1,5 @@
 <template>
-  <div v-if="tempPost._id" class="row gy-4">
+  <div v-if="tempPost.id" class="row gy-4">
     <div class="col">
       <div class="bg-white rounded border border-2 border-black p-8" style="border-bottom: 4px solid black !important">
         <div class="d-flex flex-column gap-1 mb-4">
@@ -20,7 +20,7 @@
             <label class="form-check-label" :for="tag">{{ tag }}</label>
           </div>
         </div>
-        <button @click="handleUpdatePost(this.tempPost, this.tempPost._id)" type="button" class="btn btn-light-gray py-4 border border-2 border-black w-50">更新貼文</button>
+        <button @click="handleUpdatePost(this.tempPost, this.tempPost.id)" type="button" class="btn btn-light-gray py-4 border border-2 border-black w-50">更新貼文</button>
       </div>
     </div>
   </div>

@@ -18,7 +18,7 @@
           </div>
         </div>
         <div v-else class="row gy-3">
-          <div v-for="likedPost in likedPosts" :key="likedPost._id" class="col-12">
+          <div v-for="likedPost in likedPosts" :key="likedPost.id" class="col-12">
             <div class="d-flex gap-2 bg-white rounded border border-2 border-black p-4 mb-2" style="border-bottom: 4px solid black !important">
               <div class="rounded-circle overflow-hidden" style="width: 45px; height: 45px;">
                 <img :src="likedPost.post.user.photo" :alt="`user-photo-${likedPost.post.user.name}`" class="object-fit-cover img-fluid" style="height: 45px;">
@@ -28,17 +28,17 @@
                 <small class="baloo-da-2 text-gray">發文時間：{{ formatCreatedAt(likedPost.post.createdAt).formattedDateAndTime }}</small>
               </div>
               <div class="mt-auto ms-auto">
-                <button @click="handleDeleteLikedPost(likedPost._id)" type="button" class="btn btn-sm border border-2 border-black bg-white me-2">
+                <button @click="handleDeleteLikedPost(likedPost.id)" type="button" class="btn btn-sm border border-2 border-black bg-white me-2">
                   <i class="bi bi-hand-thumbs-up-fill me-2"></i>
                   <small>取消按讚</small>
                 </button>
-                <button @click="handleGoToPost(likedPost.post._id)" type="button" class="btn btn-sm border border-2 border-black text-decoration-none bg-white">
+                <button @click="handleGoToPost(likedPost.post.id)" type="button" class="btn btn-sm border border-2 border-black text-decoration-none bg-white">
                   <i class="bi bi-arrow-right-circle-fill me-2"></i>
                   <small>查看貼文</small>
                 </button>
               </div>
             </div>
-            <RouterView v-if="currentPostId === likedPost.post._id" />
+            <RouterView v-if="currentPostId === likedPost.post.id" />
           </div>
         </div>
       </div>
