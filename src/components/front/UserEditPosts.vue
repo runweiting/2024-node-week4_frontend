@@ -58,6 +58,7 @@ import UserDashboard from '@/components/front/UserDashboard.vue';
 import formatCreatedAt from '@/utils/formatCreatedAt';
 import timestampToDate from '@/utils/timestampToDate';
 import userPostsStore from '@/stores/front/userPostsStore';
+import { errorToast } from "@/utils/swalToasts"
 
 export default {
   components: {
@@ -87,8 +88,13 @@ export default {
       this.$router.push({ name: 'edit-post', params: { postId: currentPostId } })
     },
     handleDeletePost(postId) {
-      this.deletePost(postId);
-      this.getUserPosts(this.targetUserId);
+      this.deletePost(postId)
+        .then(() => {
+          this.getUserPosts(this.targetUserId);
+        })
+        .catch(() => {
+          errorToast("貼文刪除失敗")
+        })
     },
     formatCreatedAt,
     timestampToDate,
