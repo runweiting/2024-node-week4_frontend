@@ -35,10 +35,15 @@ export default {
       if (password !== confirmPassword) {
         return errorToast("密碼不一致")
       }
-      this.updatePassword(password, confirmPassword);
-      this.password = '';
-      this.confirmPassword = '';
-      this.$router.push({ name: "sign-in" });
+      this.updatePassword(password, confirmPassword)
+        .then(() => {
+          this.password = '';
+          this.confirmPassword = '';
+          this.$router.push({ name: "sign-in" });
+        })
+        .catch(() => {
+          errorToast("密碼更新失敗")
+        })
       return null
     }
   }
