@@ -20,4 +20,5 @@ export default defineConfig({
   css: {
     devSourcemap: true,
   },
+  envDir: "./", // 確保指向 .env 文件所在的目錄
 });
