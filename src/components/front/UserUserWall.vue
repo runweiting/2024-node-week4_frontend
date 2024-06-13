@@ -34,7 +34,7 @@
       </div>
       <div class="col-8">
         <div class="input-group">
-          <input v-model="keyword" type="text" class="form-control rounded-0 border-2 border-black py-3 px-4" placeholder="搜尋貼文" aria-label="搜尋貼文" aria-describedby="搜尋貼文">
+          <input v-model="keyword" type="search" class="form-control rounded-0 border-2 border-black py-3 px-4" placeholder="搜尋貼文" aria-label="搜尋貼文" aria-describedby="搜尋貼文">
           <button @click="handleSearchPosts(keyword)" class="btn btn-primary rounded-0 px-4" type="button"><i class="bi bi-search text-white fs-4"></i></button>
         </div>
       </div>

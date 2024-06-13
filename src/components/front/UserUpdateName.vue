@@ -14,7 +14,7 @@
         </div>
         <div class="d-flex flex-column gap-1 mb-4">
           <span>匿稱</span>
-          <input v-model="tempProfile.name" class="form-control rounded-0 border border-black border-2" placeholder="請輸入匿稱" aria-label="nickname">
+          <input v-model="tempProfile.name" class="form-control rounded-0 border border-black border-2" type="text" placeholder="請輸入匿稱" aria-label="nickname">
         </div>
         <div class="mb-8">
           <span class="d-block mb-2">性別</span>

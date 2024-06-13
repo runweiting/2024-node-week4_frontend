@@ -10,12 +10,12 @@
           <h1 class="text-primary display-3">MetaWall</h1>
           <h4 class="helvetica-neue fw-bold mb-9">到元宇宙展開全新社交圈</h4>
           <div class="form-floating mb-4">
-            <VField v-model.trim="email" rules="required|email" :class="{ 'is-invalid': errors['email'] }" name="email" type="text" class="form-control rounded-0 border border-black border-2" placeholder="Email" aria-label="email" aria-describedby="email" />
+            <VField v-model.trim="email" rules="required|email" :class="{ 'is-invalid': errors['email'] }" name="email" type="email" class="form-control rounded-0 border border-black border-2" placeholder="Email" aria-label="email" aria-describedby="email" />
             <label for="email" class="form-label">email</label>
             <ErrorMessage name="email" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="form-floating mb-8">
-            <VField v-model.trim="password" :rules="isPassword" :class="{ 'is-invalid': errors['password'] }" name="password" type="text" class="form-control rounded-0 border border-black border-2" placeholder="Password" aria-label="password" aria-describedby="password" />
+            <VField v-model.trim="password" :rules="isPassword" :class="{ 'is-invalid': errors['password'] }" name="password" type="password" class="form-control rounded-0 border border-black border-2" placeholder="Password" aria-label="password" aria-describedby="password" />
             <label for="password" class="form-label">password</label>
             <ErrorMessage name="password" class="invalid-feedback"></ErrorMessage>
           </div>

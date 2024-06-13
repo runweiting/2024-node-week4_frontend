@@ -15,17 +15,17 @@
             <ErrorMessage name="匿稱" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="form-floating mb-2">
-            <VField v-model.trim="email" rules="required|email" :class="{ 'is-invalid': errors['email']}" name="email" type="text" class="form-control rounded-0 border border-black border-2" placeholder="Email" aria-label="email" aria-describedby="email" />
+            <VField v-model.trim="email" rules="required|email" :class="{ 'is-invalid': errors['email']}" name="email" type="email" class="form-control rounded-0 border border-black border-2" placeholder="Email" aria-label="email" aria-describedby="email" />
             <label for="email" class="form-label">email</label>
             <ErrorMessage name="email" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="form-floating mb-2">
-            <VField v-model.trim="password" :rules="isPassword" :class="{ 'is-invalid': errors['password'] }" name="password" type="text" class="form-control rounded-0 border border-black border-2" placeholder="Password" aria-label="password" aria-describedby="password" />
+            <VField v-model.trim="password" :rules="isPassword" :class="{ 'is-invalid': errors['password'] }" name="password" type="password" class="form-control rounded-0 border border-black border-2" placeholder="Password" aria-label="password" aria-describedby="password" />
             <label for="password" class="form-label">password</label>
             <ErrorMessage name="password" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="form-floating mb-2">
-            <VField v-model.trim="confirmPassword" rules="required" :class="{ 'is-invalid': errors['confirmPassword'] }" name="confirmPassword" type="text" class="form-control rounded-0 border border-black border-2" placeholder="confirmPassword" aria-label="confirmPassword" aria-describedby="confirmPassword" />
+            <VField v-model.trim="confirmPassword" rules="required" :class="{ 'is-invalid': errors['confirmPassword'] }" name="confirmPassword" type="password" class="form-control rounded-0 border border-black border-2" placeholder="confirmPassword" aria-label="confirmPassword" aria-describedby="confirmPassword" />
             <label for="confirmPassword" class="form-label">confirmPassword</label>
             <ErrorMessage name="confirmPassword" class="invalid-feedback"></ErrorMessage>
           </div>
