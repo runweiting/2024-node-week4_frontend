@@ -38,6 +38,7 @@ import { ErrorMessage } from 'vee-validate';
 import { mapActions } from 'pinia';
 import userUsersStore from '@/stores/front/userUsersStore';
 import isPassword from '@/utils/validators/isPassword';
+import isUserSignIn from '@/utils/validators/isUserSignIn';
 
 export default {
   components: { ErrorMessage },
@@ -47,12 +48,26 @@ export default {
       password: ''
     }
   },
+  mounted() {
+    this.checkToken();
+  },
   methods: {
     isPassword,
     ...mapActions(userUsersStore, ['signIn']),
+    checkToken () {
+      if (isUserSignIn()) {
+        this.$router.push({ name: 'metawall' })
+      }
+    },
     onSubmit() {
-      this.signIn(this.email, this.password);
-      this.$refs.signIn.resetForm();
+      if (isUserSignIn()) {
+        return this.$router.push({ name: 'metawall' });
+      }
+      if (this.email && this.password) {
+        this.signIn(this.email, this.password);
+        this.$refs.signIn.resetForm();
+      }
+      return null
     },
   },
 }
