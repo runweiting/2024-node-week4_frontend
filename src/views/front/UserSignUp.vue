@@ -6,7 +6,7 @@
             <img src="../../../public/signin.svg" alt="sign-in-image" class="object-fit-cover img-fluid" style="height: 340px;">
           </div>
         </div>
-        <VForm v-slot="{ errors }" ref="signUp" @submit="onSubmit" class="col text-center">
+        <VForm v-slot="{ errors }" ref="signUp" @submit.prevent="onSubmit" class="col text-center">
           <h1 class="text-primary display-3">MetaWall</h1>
           <h4 class="helvetica-neue fw-bold mb-9">註冊</h4>
           <div class="form-floating mb-2">
@@ -62,7 +62,9 @@ export default {
   methods: {
     isPassword,
     ...mapActions(userUsersStore, ['signUp']),
-    onSubmit() {
+    onSubmit(event) {
+      // 阻止表單預設提交
+      event.preventDefault();
       // ESLint 要求 JavaScript 中，如有返回值的情況下，每個程式碼路徑都須返回一個值，以確保一致性和可預測性
       if (this.password !== this.confirmPassword) {
         return warningToast("密碼不一致")
