@@ -6,7 +6,7 @@
             <img src="../../../public/signin.svg" alt="sign-in-image" class="object-fit-cover img-fluid" style="height: 340px;">
           </div>
         </div>
-        <VForm v-slot="{ errors }" ref="signIn" @submit.prevent="handleSubmit" class="col text-center">
+        <VForm v-slot="{ errors }" ref="signIn" @submit="onSubmit" class="col text-center">
           <h1 class="text-primary display-3">MetaWall</h1>
           <h4 class="helvetica-neue fw-bold mb-9">到元宇宙展開全新社交圈</h4>
           <div class="form-floating mb-4">
@@ -59,21 +59,15 @@ export default {
         this.$router.push({ name: 'metawall' })
       }
     },
-    async handleSubmit() {
-      const isFormValid = await this.$refs.signIn.validate();
-      if (!isFormValid) {
-        return
-      }
+    onSubmit() {
       if (isUserSignIn()) {
-        this.$router.push({ name: 'metawall' });
+        return this.$router.push({ name: 'metawall' });
       }
       if (this.email && this.password) {
         this.signIn(this.email, this.password);
         this.$refs.signIn.resetForm();
       }
-    },
-    onSubmit() {
-      
+      return null
     },
   },
 }
