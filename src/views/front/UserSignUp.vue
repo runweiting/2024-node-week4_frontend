@@ -6,7 +6,7 @@
             <img src="../../../public/signin.svg" alt="sign-in-image" class="object-fit-cover img-fluid" style="height: 340px;">
           </div>
         </div>
-        <VForm v-slot="{ errors }" ref="signUp" @submit="onSubmit" class="col text-center">
+        <VForm v-slot="{ errors }" ref="signUp" @submit.prevent="onSubmit" class="col text-center">
           <h1 class="text-primary display-3">MetaWall</h1>
           <h4 class="helvetica-neue fw-bold mb-9">註冊</h4>
           <div class="form-floating mb-2">
