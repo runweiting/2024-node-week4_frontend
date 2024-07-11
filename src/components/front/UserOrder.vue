@@ -73,7 +73,7 @@ export default {
       try {
         const res = await this.axios.post(url, this.order);
         this.$refs.orderForm.reset();
-        this.$router.push({ name: 'payment', params: { id:  res.data.data } });
+        // this.$router.push({ name: 'payment', params: { id:  res.data.data } });
         console.log(res)
       } catch (err) {
         console.log(err)
