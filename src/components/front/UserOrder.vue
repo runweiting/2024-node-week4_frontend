@@ -55,7 +55,7 @@ export default {
       order: {
         userId: '',
         amt: '',
-        itemDesc: '全年訂閱費用 $999元',
+        itemDesc: '全年訂閱費用999元',
       },
     }
   },
