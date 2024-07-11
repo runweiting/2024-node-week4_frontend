@@ -59,7 +59,7 @@
             </div>
             <div class="ms-auto">
               <div class="d-flex align-items-center gap-2">
-                <button @click="handleLikePost('metawall', post._id, profile._id, null)" type="button" class="btn p-0">
+                <button @click="handleLikePost('metawall', post.id, profile._id, null)" type="button" class="btn p-0">
                   <i :class="isLiked(post, profile._id) ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up'" class="fs-5 text-primary"></i>
                 </button>
                 <span class="baloo-da-2 fw-bold">{{ post.likes.length }}</span>

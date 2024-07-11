@@ -39,6 +39,14 @@
           <span class="noto-sans-tc fw-bold">編輯貼文</span>
         </div>
       </RouterLink>
+      <RouterLink :to="{ name: 'order' }" class="text-black text-decoration-none">
+        <div class="d-flex align-items-center gap-4">
+          <div class="rounded-circle bg-secondary border border-2 border-black position-relative" style="width: 50px; height: 50px;">
+            <i class="bi bi-credit-card-fill fs-5 position-absolute top-50 start-50 translate-middle"></i>
+          </div>
+          <span class="noto-sans-tc fw-bold">我的付款</span>
+        </div>
+      </RouterLink>
     </div>
   </div>
 </template>

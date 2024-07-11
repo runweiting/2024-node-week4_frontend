@@ -19,7 +19,7 @@
               </div>
               <div class="d-flex flex-column gap-1 mb-4">
                 <span>圖片網址</span>
-                <input v-model="image" type="image" class="form-control rounded-0 border border-black border-2" placeholder="請輸入網址" aria-label="imageUrl" aria-describedby="imageUrl">
+                <input v-model="image" type="text" class="form-control rounded-0 border border-black border-2" placeholder="請輸入網址" aria-label="imageUrl" aria-describedby="imageUrl">
               </div>
               <div class="mb-4">
                 <img :src="image" alt="tempImage" class="object-fit-cover img-fluid">

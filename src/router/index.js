@@ -149,6 +149,22 @@ const baseRoutes = [
           },
         ],
       },
+      {
+        path: "order",
+        name: "order",
+        component: () => import("@/components/front/UserOrder.vue"),
+        meta: {
+          title: "確認訂單",
+        },
+      },
+      {
+        path: "payment/:id",
+        name: "payment",
+        component: () => import("@/components/front/UserPayment.vue"),
+        meta: {
+          title: "確認付款",
+        },
+      },
     ],
   },
   {
