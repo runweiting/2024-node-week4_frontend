@@ -14,7 +14,7 @@
           <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold p-10 mb-6">
             <div class="p-4">
               <span>步驟二、填寫付款方式</span>
-              <form ref="paymentForm" @submit.prevent="createPayment">
+              <form id="paymentForm" ref="paymentForm" @submit.prevent="createPayment">
                 <small>建立 document</small>
                 <div class="mb-3">
                   <label for="payment" class="form-label fs-6 noto-sans-tc">付款方式</label>
@@ -32,7 +32,7 @@
                   <label for="phone" class="form-label fs-6 noto-sans-tc">聯絡電話</label>
                   <input v-model="tempOrder.phone" type="text" class="form-control" />
                 </div>
-                <button type="submit" class="btn btn-primary">立即付款</button>
+                <button @click="createPayment" type="button" class="btn btn-primary">立即付款</button>
               </form>
             </div>
           </div>
@@ -84,6 +84,11 @@ export default {
       const url = `${VITE_APP_URL}/payment`;
       try {
         const res = await this.axios.post(url, { id: this.tempOrderId });
+        const paymentFormHtml = res.data;
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = paymentFormHtml;
+        document.body.appendChild(tempDiv);
+        tempDiv.querySelector('paymentForm').submit();
         this.$refs.paymentForm.reset();
         console.log(res)
       } catch (err) {
