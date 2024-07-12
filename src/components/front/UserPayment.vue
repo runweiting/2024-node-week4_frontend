@@ -14,25 +14,25 @@
           <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold p-10 mb-6">
             <div class="p-4">
               <span>步驟二、填寫付款方式</span>
-              <form id="paymentForm" ref="paymentForm" @submit.prevent="createPayment">
-                <small>建立 document</small>
+              <form :action="tradeInfo.PayGateWay" method="post">
+                <small>發出藍新API請求</small>
                 <div class="mb-3">
-                  <label for="payment" class="form-label fs-6 noto-sans-tc">付款方式</label>
-                  <input v-model="tempOrder.payment" type="text" class="form-control" />
+                  <label for="MerchantID" class="form-label fs-6 noto-sans-tc">MerchantID</label>
+                  <input type="text" class="form-control" value="MS153021540"/>
                 </div>
                 <div class="mb-3">
-                  <label for="address" class="form-label fs-6 noto-sans-tc">收件地址</label>
-                  <input v-model="tempOrder.address" type="text" class="form-control" />
+                  <label for="TradeInfo" class="form-label fs-6 noto-sans-tc">TradeInfo</label>
+                  <input v-model="tradeInfo.TradeInfo" type="text" class="form-control" />
                 </div>
                 <div class="mb-3">
-                  <label for="name" class="form-label fs-6 noto-sans-tc">收件人</label>
-                  <input v-model="tempOrder.name" type="text" class="form-control" />
+                  <label for="TradeSha" class="form-label fs-6 noto-sans-tc">TradeSha</label>
+                  <input v-model="tradeInfo.TradeSha" type="text" class="form-control" />
                 </div>
                 <div class="mb-3">
-                  <label for="phone" class="form-label fs-6 noto-sans-tc">聯絡電話</label>
-                  <input v-model="tempOrder.phone" type="text" class="form-control" />
+                  <label for="Version" class="form-label fs-6 noto-sans-tc">Version</label>
+                  <input v-model="tradeInfo.Version" type="text" class="form-control" />
                 </div>
-                <button @click="createPayment" type="button" class="btn btn-primary">立即付款</button>
+                <button type="submit" class="btn btn-primary">立即付款</button>
               </form>
             </div>
           </div>
@@ -62,11 +62,11 @@ export default {
   data() {
     return {
       tempOrderId: '',
-      tempOrder: {
-        payment: '',
-        address: '',
-        name: '',
-        phone: ''
+      tradeInfo: {
+        MerchantID: '',
+        TradeInfo: '',
+        TradeSha: '',
+        Version: ''
       },
     }
   },
@@ -74,24 +74,20 @@ export default {
     const { id } = this.$route.params;
     this.tempOrderId = id;
     this.getProfile();
+    this.getOrder();
   },
   computed: {
     ...mapState(userUsersStore, ['profile']),
   },
   methods: {
     ...mapActions(userUsersStore, ['getProfile']),
-    async createPayment() {
-      const url = `${VITE_APP_URL}/payment`;
+    async getOrder() {
+      const url = `${VITE_APP_URL}/orders/${this.tempOrderId}`;
       try {
-        const res = await this.axios.post(url, { id: this.tempOrderId });
-        const paymentFormHtml = res.data;
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = paymentFormHtml;
-        document.body.appendChild(tempDiv);
-        tempDiv.querySelector('paymentForm').submit();
-        this.$refs.paymentForm.reset();
-        console.log(res)
-      } catch (err) {
+        const res = await this.axios.get(url);
+        this.tradeInfo = res.data.data;
+        console.log('trade', this.tradeInfo)
+      } catch(err) {
         console.log(err)
       }
     }

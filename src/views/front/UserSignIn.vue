@@ -16,7 +16,7 @@
           </div>
           <div class="form-floating mb-8">
             <VField v-model.trim="password" :rules="isPassword" :class="{ 'is-invalid': errors['password'] }" name="password" type="password" class="form-control rounded-0 border border-black border-2" placeholder="Password" aria-label="password" aria-describedby="password" />
-            <label for="password" class="form-label">password</label>
+            <label for="password" class="form-label" autocomplete="current-password">password</label>
             <ErrorMessage name="password" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="d-flex gap-2 mb-2">

@@ -14,14 +14,18 @@
           <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold p-10 mb-6">
             <div class="p-4">
               <span>步驟一、選擇預購方案</span>
-              <form ref="orderForm" method="POST" @submit.prevent="createOrder(profile._id)">
+              <form ref="orderForm" @submit.prevent="createOrder(profile._id)">
                 <div class="mb-3">
-                  <label for="Amt" class="form-label  fs-6 noto-sans-tc">商品數量</label>
+                  <label for="Email" class="form-label fs-6 noto-sans-tc">Email</label>
+                  <input v-model="order.email" type="email" class="form-control" aria-describedby="email">
+                </div>
+                <div class="mb-3">
+                  <label for="Amt" class="form-label fs-6 noto-sans-tc">商品數量</label>
                   <input v-model="order.amt" type="number" class="form-control" aria-describedby="amt">
                 </div>
                 <div class="mb-3">
                   <label for="ItemDesc" class="form-check-label fs-6 noto-sans-tc">商品描述</label>
-                  <input v-model="order.itemDesc" type="text" class="form-control">
+                  <input v-model="order.itemDesc" type="text" class="form-control" aria-describedby="itemDesc">
                 </div>
                 <button type="submit" class="btn btn-primary">確認方案</button>
               </form>
@@ -54,8 +58,9 @@ export default {
     return {
       order: {
         userId: '',
-        amt: '',
-        itemDesc: '全年訂閱費用999元',
+        email: 'whatisfuntime@gmail.com',
+        amt: 1,
+        itemDesc: '全年訂閱費用 $999元',
       },
     }
   },
@@ -69,11 +74,12 @@ export default {
     ...mapActions(userUsersStore, ['getProfile']),
     async createOrder(userId) {
       this.order.userId = userId;
+      console.log('userId', userId);
       const url = `${VITE_APP_URL}/orders`;
       try {
         const res = await this.axios.post(url, this.order);
         this.$refs.orderForm.reset();
-        // this.$router.push({ name: 'payment', params: { id:  res.data.data } });
+        this.$router.push({ name: 'payment', params: { id:  res.data.data } });
         console.log(res)
       } catch (err) {
         console.log(err)
