@@ -2,7 +2,7 @@ import { test, describe, expect, beforeAll } from "vitest";
 import axios from "axios";
 
 const {
-  VITE_LOCALHOST,
+  VITE_APP_URL,
   TEST_NAME,
   TEST_EMAIL,
   TEST_PASSWORD,
@@ -14,7 +14,7 @@ let axiosConfig;
 
 beforeAll(async () => {
   try {
-    const res = await axios.post(`${VITE_LOCALHOST}/users/sign-up`, {
+    const res = await axios.post(`${VITE_APP_URL}/users/sign-up`, {
       name: TEST_NAME,
       email: TEST_EMAIL,
       password: TEST_PASSWORD,
@@ -50,7 +50,7 @@ describe("Error Handling Tests", () => {
         tags: [],
       };
       if (myToken) {
-        await axios.post(`${VITE_LOCALHOST}/posts`, data, axiosConfig);
+        await axios.post(`${VITE_APP_URL}/posts`, data, axiosConfig);
       }
     } catch (err) {
       expect(err.response.status).toBe(400);
@@ -62,7 +62,7 @@ describe("Error Handling Tests", () => {
   test("should handle CastError", async () => {
     try {
       if (myToken) {
-        await axios.get(`${VITE_LOCALHOST}/posts/${TEST_POSTID}`, axiosConfig);
+        await axios.get(`${VITE_APP_URL}/posts/${TEST_POSTID}`, axiosConfig);
       }
     } catch (err) {
       expect(err.response.status).toBe(400);

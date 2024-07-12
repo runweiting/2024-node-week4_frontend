@@ -5,7 +5,7 @@ import { errorToast, successToast } from "@/utils/swalToasts";
 import postsStore from "./postsStore";
 
 const $loading = useLoading({});
-const { VITE_LOCALHOST } = import.meta.env;
+const { VITE_APP_URL } = import.meta.env;
 const userLikesStore = defineStore("userLikesStore", {
   state: () => ({}),
   actions: {
@@ -58,7 +58,7 @@ const userLikesStore = defineStore("userLikesStore", {
     },
     async likePost(postId) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/posts/${postId}/like`;
+      const url = `${VITE_APP_URL}/posts/${postId}/like`;
       try {
         const res = await axios.post(url);
         successToast(res.data.message);
@@ -70,7 +70,7 @@ const userLikesStore = defineStore("userLikesStore", {
     },
     async unlikePost(postId) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/posts/${postId}/unlike`;
+      const url = `${VITE_APP_URL}/posts/${postId}/unlike`;
       try {
         const res = await axios.delete(url);
         successToast(res.data.message);
