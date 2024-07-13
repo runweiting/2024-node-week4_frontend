@@ -4,7 +4,7 @@ import { useLoading } from "vue-loading-overlay";
 import { errorToast } from "@/utils/swalToasts";
 
 const $loading = useLoading({});
-const { VITE_LOCALHOST } = import.meta.env;
+const { VITE_APP_URL } = import.meta.env;
 const postsStore = defineStore("postsStore", {
   state: () => ({
     postsList: [],
@@ -14,7 +14,7 @@ const postsStore = defineStore("postsStore", {
   actions: {
     async getPosts(timeSort = null, keyword = null) {
       const loader = $loading.show();
-      let url = `${VITE_LOCALHOST}/posts`;
+      let url = `${VITE_APP_URL}/posts`;
       if (timeSort !== null) {
         url += `?timeSort=${timeSort}`;
         if (keyword) {
@@ -33,7 +33,7 @@ const postsStore = defineStore("postsStore", {
     },
     async getPost(postId) {
       const loader = $loading.show();
-      const url = `${VITE_LOCALHOST}/posts/${postId}`;
+      const url = `${VITE_APP_URL}/posts/${postId}`;
       try {
         const res = await axios.get(url);
         const { data } = res.data;
@@ -46,7 +46,7 @@ const postsStore = defineStore("postsStore", {
     },
     async getUserPosts(userId, timeSort = null, keyword = null) {
       const loader = $loading.show();
-      let url = `${VITE_LOCALHOST}/posts/user/${userId}`;
+      let url = `${VITE_APP_URL}/posts/user/${userId}`;
       if (timeSort !== null) {
         url += `?timeSort=${timeSort}`;
         if (keyword) {
