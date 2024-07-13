@@ -158,11 +158,19 @@ const baseRoutes = [
         },
       },
       {
-        path: "payment/:id",
+        path: "payment",
         name: "payment",
         component: () => import("@/components/front/UserPayment.vue"),
         meta: {
           title: "確認付款",
+        },
+      },
+      {
+        path: "payment-result",
+        name: "payment-result",
+        component: () => import("@/components/front/UserPaymentResult.vue"),
+        meta: {
+          title: "付款結果",
         },
       },
     ],

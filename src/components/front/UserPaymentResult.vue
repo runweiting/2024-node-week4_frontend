@@ -13,27 +13,7 @@
         <div class="row gy-4">
           <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold p-10 mb-6">
             <div class="p-4">
-              <span>步驟二、填寫付款方式</span>
-              <form :action="tradeInfo.PayGateWay" method="post">
-                <small>發出藍新API請求</small>
-                <div class="mb-3">
-                  <label for="MerchantID" class="form-label fs-6 noto-sans-tc">MerchantID</label>
-                  <input v-model="tradeInfo.MerchantID" type="text" class="form-control" name="MerchantID" />
-                </div>
-                <div class="mb-3">
-                  <label for="TradeInfo" class="form-label fs-6 noto-sans-tc">TradeInfo</label>
-                  <input v-model="tradeInfo.TradeInfo" type="text" class="form-control" name="TradeInfo" />
-                </div>
-                <div class="mb-3">
-                  <label for="TradeSha" class="form-label fs-6 noto-sans-tc">TradeSha</label>
-                  <input v-model="tradeInfo.TradeSha" type="text" class="form-control" name="TradeSha" />
-                </div>
-                <div class="mb-3">
-                  <label for="Version" class="form-label fs-6 noto-sans-tc">Version</label>
-                  <input v-model="tradeInfo.Version" type="text" class="form-control" name="Version" />
-                </div>
-                <button type="submit" class="btn btn-primary">立即付款</button>
-              </form>
+              <span>付款成功</span>
             </div>
           </div>
         </div>

@@ -4,13 +4,13 @@ import { useLoading } from "vue-loading-overlay";
 import { errorToast, successToast } from "@/utils/swalToasts";
 
 const $loading = useLoading({});
-const { VITE_APP_URL } = import.meta.env;
+const { VITE_LOCALHOST } = import.meta.env;
 const userCommentsStore = defineStore("userCommentsStore", {
   state: () => ({}),
   actions: {
     async createComment(postId, comment) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/posts/${postId}/comment`;
+      const url = `${VITE_LOCALHOST}/posts/${postId}/comment`;
       try {
         const res = await axios.post(url, {
           comment,
@@ -24,7 +24,7 @@ const userCommentsStore = defineStore("userCommentsStore", {
     },
     async deleteComment(commentId) {
       const loader = $loading.show();
-      const url = `${VITE_APP_URL}/posts/${commentId}/uncomment`;
+      const url = `${VITE_LOCALHOST}/posts/${commentId}/uncomment`;
       try {
         const res = await axios.delete(url);
         successToast(res.data.message);
