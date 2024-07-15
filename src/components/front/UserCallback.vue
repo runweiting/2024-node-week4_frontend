@@ -10,32 +10,50 @@ import router from "@/router";
 import { errorToast } from "@/utils/swalToasts";
 
 export default {
-  mounted() {
-    // window.location.hash 返回當前 URL #
-    const hashString = window.location.hash;
-    // 從 # 中取出查詢字串
-    const queryString = hashString.split('?')[1];
-    if (!queryString) {
-      errorToast('無效的回調 URL！');
+  async mounted() {
+    try {
+      const queryParams = this.getQueryParams();
+      if (!queryParams) {
+        errorToast('無效的 callback URL！');
+        router.push({ name: "sign-in" });
+        return
+      }
+      const { token, expires, source } = queryParams;
+      if (!token || !expires || !source) {
+        errorToast('您尚未登入！');
+        router.push({ name: "sign-in" });
+        return;
+      }
+      document.cookie = `myToken=${token}; expires=${expires}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      await this.handleRedirect(source);
+    } catch(err) {
+      console.error('Callback failed', err);
+      errorToast('callback 處理失敗');
       router.push({ name: "sign-in" });
-      return;
     }
-    // URLSearchParams 取出查詢字串
-    const queryParams = new URLSearchParams(queryString);
-    const token = queryParams.get('token');
-    const expires = queryParams.get('expires');
-    if (!token || !expires) {
-      errorToast('您尚未登入！');
-      router.push({ name: "sign-in" });
-      return;
-    }
-    document.cookie = `myToken=${token}; expires=${expires}`;
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-
-    // 以確保 cookie 和 axios.defaults.headers 設置完成
-    setTimeout(() => {
-      router.push({ name: "metawall" });
-    }, 500);
   },
+  methods: {
+    getQueryParams() {
+      // window.location.hash 返回當前 URL #
+      const hashString = window.location.hash;
+      console.log('hashString', hashString)
+      // 從 # 中取出查詢字串
+      const queryString = hashString.split('?')[1];
+      console.log('queryString', queryString)
+      if (!queryString) { return null };
+      // URLSearchParams 取出查詢字串
+      return new URLSearchParams(queryString);
+    },
+    async handleRedirect(source) {
+      if (source === 'google') {
+        await router.push({ name: "metawall" });
+      } else if (source === 'newebpay') {
+        await router.push({ name: "payment-result" });
+      } else {
+        errorToast('未知的 callback source')
+      }
+    }
+  }
 }
 </script>

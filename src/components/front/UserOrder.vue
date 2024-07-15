@@ -16,10 +16,6 @@
               <span>步驟一、選擇預購方案</span>
               <form ref="orderForm" @submit.prevent="createOrder(profile._id)">
                 <div class="mb-3">
-                  <label for="Email" class="form-label fs-6 noto-sans-tc">Email</label>
-                  <input v-model="order.email" type="email" class="form-control" aria-describedby="email">
-                </div>
-                <div class="mb-3">
                   <label for="Amt" class="form-label fs-6 noto-sans-tc">商品數量</label>
                   <input v-model="order.amt" type="number" class="form-control" aria-describedby="amt">
                 </div>
@@ -48,7 +44,7 @@ import UserDashboard from '@/components/front/UserDashboard.vue';
 import userUsersStore from '@/stores/front/userUsersStore';
 // import { errorToast } from "@/utils/swalToasts";
 
-const { VITE_APP_URL } = import.meta.env;
+const { VITE_LOCALHOST } = import.meta.env;
 export default {
   components: {
     UserNavbar,
@@ -58,7 +54,6 @@ export default {
     return {
       order: {
         userId: '',
-        email: 'whatisfuntime@gmail.com',
         amt: 1,
         itemDesc: '全年訂閱費用 $999元',
       },
@@ -74,12 +69,12 @@ export default {
     ...mapActions(userUsersStore, ['getProfile']),
     async createOrder(userId) {
       this.order.userId = userId;
-      const url = `${VITE_APP_URL}/orders`;
+      const url = `${VITE_LOCALHOST}/orders`;
       try {
         const res = await this.axios.post(url, this.order);
         console.log(res);
         this.$refs.orderForm.reset();
-        this.$router.push({ name: 'payment', query: { order:  res.data.data } });
+        this.$router.push({ name: 'payment', query: { order: res.data.data } });
       } catch (err) {
         console.log(err)
       }
