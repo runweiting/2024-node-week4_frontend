@@ -37,17 +37,17 @@ export default {
     getQueryParams() {
       // window.location.hash 返回當前 URL #
       const hashString = window.location.hash;
-      console.log('hashString', hashString)
       // 從 # 中取出查詢字串
       const queryString = hashString.split('?')[1];
-      console.log('queryString', queryString)
       if (!queryString) { return null };
-      // URLSearchParams 取出查詢字串
-      return new URLSearchParams(queryString);
+      // 取出查詢字串並轉換為物件
+      const params = new URLSearchParams(queryString);
+      console.log('params', params);
+      return Object.fromEntries(params.entries());
     },
     async handleRedirect(source) {
       if (source === 'google') {
-        await router.push({ name: "metawall" });
+        await router.push({ name: "metawall" })
       } else if (source === 'newebpay') {
         await router.push({ name: "payment-result" });
       } else {
