@@ -53,7 +53,7 @@ import UserDashboard from '@/components/front/UserDashboard.vue';
 import userUsersStore from '@/stores/front/userUsersStore';
 // import { errorToast } from "@/utils/swalToasts";
 
-const { VITE_LOCALHOST } = import.meta.env;
+const { VITE_APP_URL } = import.meta.env;
 export default {
   components: {
     UserNavbar,
@@ -63,6 +63,7 @@ export default {
     return {
       tempOrderId: '',
       tradeInfo: {
+        PayGateWay: '',
         MerchantID: '',
         TradeInfo: '',
         TradeSha: '',
@@ -83,7 +84,7 @@ export default {
   methods: {
     ...mapActions(userUsersStore, ['getProfile']),
     async getOrder() {
-      const url = `${VITE_LOCALHOST}/orders/${this.tempOrderId}`;
+      const url = `${VITE_APP_URL}/orders/${this.tempOrderId}`;
       try {
         const res = await this.axios.get(url);
         this.tradeInfo = res.data.data;

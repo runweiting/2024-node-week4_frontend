@@ -44,7 +44,7 @@ import UserDashboard from '@/components/front/UserDashboard.vue';
 import userUsersStore from '@/stores/front/userUsersStore';
 // import { errorToast } from "@/utils/swalToasts";
 
-const { VITE_LOCALHOST } = import.meta.env;
+const { VITE_APP_URL } = import.meta.env;
 export default {
   components: {
     UserNavbar,
@@ -69,7 +69,7 @@ export default {
     ...mapActions(userUsersStore, ['getProfile']),
     async createOrder(userId) {
       this.order.userId = userId;
-      const url = `${VITE_LOCALHOST}/orders`;
+      const url = `${VITE_APP_URL}/orders`;
       try {
         const res = await this.axios.post(url, this.order);
         console.log(res);
