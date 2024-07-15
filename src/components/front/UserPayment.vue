@@ -88,7 +88,7 @@ export default {
       try {
         const res = await this.axios.get(url);
         this.tradeInfo = res.data.data;
-        console.log('trade', this.tradeInfo)
+        console.log('tradeInfo', this.tradeInfo)
       } catch(err) {
         console.log(err)
       }
