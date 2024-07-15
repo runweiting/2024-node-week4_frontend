@@ -42,7 +42,6 @@ export default {
       if (!queryString) { return null };
       // 取出查詢字串並轉換為物件
       const params = new URLSearchParams(queryString);
-      console.log('params', params);
       return Object.fromEntries(params.entries());
     },
     async handleRedirect(source) {
