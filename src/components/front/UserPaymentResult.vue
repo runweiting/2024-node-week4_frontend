@@ -13,7 +13,7 @@
         <div class="row gy-4">
           <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold p-10 mb-6">
             <div class="p-4">
-              <span>{{ message }}</span>
+              <span>{{ paidOrder.status }}</span>
               <span>訂單編號：{{ paidOrder.merchantOrderNo }}</span>
               <span>商品數量：{{ paidOrder.amt }}</span>
               <span>商品描述：{{ paidOrder.itemDesc }}</span>
@@ -34,7 +34,7 @@ import { mapState, mapActions } from 'pinia';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 import UserDashboard from '@/components/front/UserDashboard.vue';
 import userUsersStore from '@/stores/front/userUsersStore';
-import { errorToast } from "@/utils/swalToasts";
+// import { errorToast } from "@/utils/swalToasts";
 
 const { VITE_APP_URL } = import.meta.env;
 
@@ -46,12 +46,12 @@ export default {
   data() {
     return {
       paidOrderId: '',
-      message: '確認付款狀態中...',
       paidOrder: {
         amt: '',
         itemDesc: '',
         isPaid: '',
-        merchantOrderNo: ''
+        merchantOrderNo: '',
+        status: '確認付款狀態中...'
       }
     }
   },
@@ -75,9 +75,9 @@ export default {
         const res = await this.axios.get(url);
         this.paidOrder = res.data.data;
         if (this.paidOrder.isPaid) {
-          this.message = '付款成功'
+          this.paidOrder.status = '付款成功'
         } else {
-          this.message = '訂單尚未付款';
+          this.paidOrder.status = '訂單尚未付款';
         }
       } catch (err) {
         this.message = '查詢訂單狀態失敗，請稍後重試。';
