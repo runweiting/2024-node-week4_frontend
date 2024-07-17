@@ -34,7 +34,7 @@ import { mapState, mapActions } from 'pinia';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 import UserDashboard from '@/components/front/UserDashboard.vue';
 import userUsersStore from '@/stores/front/userUsersStore';
-// import { errorToast } from "@/utils/swalToasts";
+import { errorToast } from "@/utils/swalToasts";
 
 const { VITE_APP_URL } = import.meta.env;
 
@@ -79,7 +79,7 @@ export default {
         }
       } catch (err) {
         this.message = '查詢訂單狀態失敗，請稍後重試。';
-        console.error('查詢訂單狀態失敗:', err);
+        errorToast(err.response.data.message)
       }
     },
   }

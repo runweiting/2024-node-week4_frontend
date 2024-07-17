@@ -51,7 +51,7 @@ import { mapState, mapActions } from 'pinia';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 import UserDashboard from '@/components/front/UserDashboard.vue';
 import userUsersStore from '@/stores/front/userUsersStore';
-// import { errorToast } from "@/utils/swalToasts";
+import { errorToast } from "@/utils/swalToasts";
 
 const { VITE_APP_URL } = import.meta.env;
 export default {
@@ -73,7 +73,6 @@ export default {
   },
   mounted() {
     const id = this.$route.query.order;
-    console.log('id', id);
     this.tempOrderId = id;
     this.getProfile();
     this.getOrder();
@@ -88,9 +87,8 @@ export default {
       try {
         const res = await this.axios.get(url);
         this.tradeInfo = res.data.data;
-        console.log('tradeInfo', this.tradeInfo)
       } catch(err) {
-        console.log(err)
+        errorToast(err.response.data.message)
       }
     }
   }

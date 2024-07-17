@@ -42,7 +42,7 @@ import { mapState, mapActions } from 'pinia';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 import UserDashboard from '@/components/front/UserDashboard.vue';
 import userUsersStore from '@/stores/front/userUsersStore';
-// import { errorToast } from "@/utils/swalToasts";
+import { errorToast } from "@/utils/swalToasts";
 
 const { VITE_APP_URL } = import.meta.env;
 export default {
@@ -72,11 +72,10 @@ export default {
       const url = `${VITE_APP_URL}/orders`;
       try {
         const res = await this.axios.post(url, this.order);
-        console.log(res);
         this.$refs.orderForm.reset();
         this.$router.push({ name: 'payment', query: { order: res.data.data } });
       } catch (err) {
-        console.log(err)
+        errorToast(err.response.data.message)
       }
     }
   }
