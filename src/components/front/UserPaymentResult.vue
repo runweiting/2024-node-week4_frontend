@@ -56,9 +56,7 @@ export default {
     }
   },
   created() {
-    const id = this.$route.query.order;
-    console.log('id', id);
-    this.paidOrderId = id;
+    this.paidOrderId = this.$route.params.id;
   },
   mounted() {
     this.getProfile();
