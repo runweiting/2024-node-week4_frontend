@@ -71,6 +71,7 @@ export default {
       const url = `${VITE_APP_URL}/orders/status/${orderId}`
       try {
         const res = await this.axios.get(url);
+        console.log('res', res);
         this.paidOrder = res.data.data;
         if (this.paidOrder.isPaid) {
           this.paidOrder.status = '付款成功'
