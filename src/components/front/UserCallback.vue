@@ -14,22 +14,22 @@ export default {
     try {
       const queryParams = this.getQueryParams();
       if (!queryParams) {
-        errorToast('無效的 callback URL！');
+        errorToast('無效的 Callback URL！');
         router.push({ name: "sign-in" });
         return
       }
-      const { token, expires, source } = queryParams;
-      if (!token || !expires || !source) {
+      const { token, expires, source, order } = queryParams;
+      if (!token || !expires || !source || !order) {
         errorToast('您尚未登入！');
         router.push({ name: "sign-in" });
         return;
       }
       document.cookie = `myToken=${token}; expires=${expires}`;
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      await this.handleRedirect(source);
+      await this.handleRedirect(source, order);
     } catch(err) {
-      console.error('Callback failed', err);
-      errorToast('callback 處理失敗');
+      console.error('Callback 處理失敗', err);
+      errorToast('Callback 處理失敗');
       router.push({ name: "sign-in" });
     }
   },
@@ -44,11 +44,11 @@ export default {
       const params = new URLSearchParams(queryString);
       return Object.fromEntries(params.entries());
     },
-    async handleRedirect(source) {
+    async handleRedirect(source, order) {
       if (source === 'google') {
         await router.push({ name: "metawall" })
       } else if (source === 'newebpay') {
-        await router.push({ name: "payment-result" });
+        await router.push({ name: "payment-result", params: { id: order} });
       } else {
         errorToast('未知的 callback source')
       }

@@ -13,7 +13,10 @@
         <div class="row gy-4">
           <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold p-10 mb-6">
             <div class="p-4">
-              <span>付款成功</span>
+              <span>{{ message }}</span>
+              <span>訂單編號：{{ paidOrder.merchantOrderNo }}</span>
+              <span>商品數量：{{ paidOrder.amt }}</span>
+              <span>商品描述：{{ paidOrder.itemDesc }}</span>
             </div>
           </div>
         </div>
@@ -31,9 +34,10 @@ import { mapState, mapActions } from 'pinia';
 import UserNavbar from '@/components/front/UserNavbar.vue';
 import UserDashboard from '@/components/front/UserDashboard.vue';
 import userUsersStore from '@/stores/front/userUsersStore';
-// import { errorToast } from "@/utils/swalToasts";
+import { errorToast } from "@/utils/swalToasts";
 
 const { VITE_APP_URL } = import.meta.env;
+
 export default {
   components: {
     UserNavbar,
@@ -41,37 +45,45 @@ export default {
   },
   data() {
     return {
-      tempOrderId: '',
-      tradeInfo: {
-        MerchantID: '',
-        TradeInfo: '',
-        TradeSha: '',
-        Version: ''
-      },
+      paidOrderId: '',
+      message: '確認付款狀態中...',
+      paidOrder: {
+        amt: '',
+        itemDesc: '',
+        isPaid: '',
+        merchantOrderNo: ''
+      }
     }
   },
-  mounted() {
+  created() {
     const id = this.$route.query.order;
     console.log('id', id);
-    this.tempOrderId = id;
+    this.paidOrderId = id;
+  },
+  mounted() {
     this.getProfile();
-    this.getOrder();
+    this.checkOrderStatus(this.paidOrderId);
   },
   computed: {
     ...mapState(userUsersStore, ['profile']),
   },
   methods: {
     ...mapActions(userUsersStore, ['getProfile']),
-    async getOrder() {
-      const url = `${VITE_APP_URL}/orders/${this.tempOrderId}`;
+    async checkOrderStatus(orderId) {
+      const url = `${VITE_APP_URL}/orders/status/${orderId}`
       try {
         const res = await this.axios.get(url);
-        this.tradeInfo = res.data.data;
-        console.log('trade', this.tradeInfo)
-      } catch(err) {
-        console.log(err)
+        this.paidOrder = res.data.data;
+        if (this.paidOrder.isPaid) {
+          this.message = '付款成功'
+        } else {
+          this.message = '訂單尚未付款';
+        }
+      } catch (err) {
+        this.message = '查詢訂單狀態失敗，請稍後重試。';
+        console.error('查詢訂單狀態失敗:', err);
       }
-    }
+    },
   }
 }
 </script>

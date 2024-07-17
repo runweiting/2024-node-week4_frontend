@@ -166,7 +166,7 @@ const baseRoutes = [
         },
       },
       {
-        path: "payment-result",
+        path: "payment-result/:id",
         name: "payment-result",
         component: () => import("@/components/front/UserPaymentResult.vue"),
         meta: {
