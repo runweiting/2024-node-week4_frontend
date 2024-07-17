@@ -13,10 +13,10 @@
         <div class="row gy-4">
           <div class="rounded-0 bg-white border border-2 border-black azeret-mono fs-5 fw-bold p-10 mb-6">
             <div class="p-4">
-              <span>{{ paidOrder.status }}</span>
-              <span>訂單編號：{{ paidOrder.merchantOrderNo }}</span>
-              <span>商品數量：{{ paidOrder.amt }}</span>
-              <span>商品描述：{{ paidOrder.itemDesc }}</span>
+              <p>{{ paidOrder.status }}</p>
+              <p>訂單編號：{{ paidOrder.merchantOrderNo }}</p>
+              <p>商品數量：{{ paidOrder.amt }}</p>
+              <p>商品描述：{{ paidOrder.itemDesc }}</p>
             </div>
           </div>
         </div>
